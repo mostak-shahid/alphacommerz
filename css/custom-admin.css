@@ -1,0 +1,71 @@
+.wp-list-table td.image img {
+  max-width: 100%;
+}
+/* Theme Option CSS */
+.photo-container .theme_option_photo_container img {
+  max-width: 150px;
+  height: auto;
+}
+.mos-tabs li {
+  margin-bottom: 0;
+}
+.mos-tabs ul {
+  display: none;
+}
+.mos-tabs ul a {
+  background-color: #cccccc;
+}
+.mos-tabs .nav-tab-active + ul {
+  display: block;
+}
+.mos-tab-item {
+  display: none;
+}
+.cf-field .ace_editor,
+.cf-field .ace_scroller,
+.cf-field .ace_scrollbar {
+    min-height: 500px!important;
+}
+@media (min-width: 992px) {
+  .mos-tabs {
+    width: 200px;
+    float: left;
+    margin: 0;
+  }
+  .mos-tabs a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    background-color: #eaeaea;
+    border-style: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: relative;
+  }
+  .mos-tabs a.nav-tab-active {
+    background-color: #333333 !important;
+    color: #ffffff;
+  }
+  .mos-tabs a.nav-tab-active::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: block;
+    background-color: #333333;
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .mos-tabs ul a.nav-tab-active::after {
+    display: none;
+  }
+  .mos-options-form {
+    width: calc(100% - 200px);
+    float: right;
+    background-color: #ffffff;
+    padding-left: 50px;
+    box-sizing: border-box;
+  }
+}
+/* Theme Option CSS */
