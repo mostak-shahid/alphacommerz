@@ -127,10 +127,28 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                                 </div>
                             <?php endforeach;?>
                         <?php endif?>
+                        <div class="form-group mb-3">
+                            <fieldset>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div id="captchaimage">
+                                        <?php
+                                        $randomString = generateRandomString(8);
+                                        ?>
+                                        <span id="refreshimg">
+                                            <?php echo $randomString ?>
+                                        </span>
+                                    </div>
+                                    <i id="refreshimg-capcha" class="fa fa-refresh"></i>
+                                </div>
+                                <label for="captcha">Enter the characters as seen on the image above (case insensitive):</label>
+                                <input class="form-control" type="text" maxlength="8" name="captcha" id="captcha">
+                            </fieldset>
+                        </div>
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit">Submit</button>
                             <input type="hidden" name="job_id" value="<?php echo get_the_ID() ?>">
                             <input type="hidden" name="job_title" value="<?php echo get_the_title() ?>">
+                            <input type="hidden" name="robo_check" id="robo_check" value="<?php echo $randomString ?>">
                         </div>
                     </form>
                 <?php else : ?>
@@ -167,6 +185,27 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
 			$(this).closest('.mos-file-info').siblings('.form-group').find('label').html('Cover Letter <span class="text-danger">*</span>');
 			$(this).closest('.mos-file-info').remove();
     	});
+        $("body").on("click", "#refreshimg-capcha", function(){
+            $(this).addClass('fa-spin');
+            $.ajax({
+                url: mos_ajax_object.ajaxurl, // or example_ajax_obj.ajaxurl if using on frontend
+                type:"POST",
+                dataType:"json",
+                data: {
+                    'action': 'regenerate_captcha',
+                    //'form_data' : form_data,
+                },
+                success: function(result){
+                    //console.log(result);
+                    $('#refreshimg-capcha').removeClass('fa-spin');
+                    $('#refreshimg').html(result);
+                    $('#robo_check').val(result);
+                },
+                error: function(errorThrown){
+                    console.log(errorThrown);
+                }
+            });
+        });
 
         
 		/*$.validator.setDefaults( {
@@ -210,7 +249,12 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                 cv: {
                     required: true,
                     regex: "^.+(.doc|.docx|.DOC|.DOCX|.pdf|.PDF)$"
-                }
+                },
+                captcha: {
+					required: true,
+					minlength: 8,
+					equalTo: "#robo_check"
+				},
             },
             messages: {
 //                registration_certificate: {
@@ -232,7 +276,12 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                 cv: {
                     required: "Please enter your cv",
                     regex: "Only pdf, doc and docx file is allowed"
-                }
+                },
+                captcha: {
+					required: "Please enterthe code",
+					minlength: "Minimum length should be 8 char",
+					equalTo: "Doesn't match"
+				},
             },
             errorElement: "div",
             errorPlacement: function ( error, element ) {

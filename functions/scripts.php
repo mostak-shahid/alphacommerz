@@ -7,7 +7,7 @@ function alphacommerz_enqueue_scripts() {
     wp_enqueue_style( 'bootstrap.min' );  
     
     
-    wp_register_script('jquery.validate.min', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js', 'jquery');
+    wp_register_script('jquery.validate.min', get_template_directory_uri() .  '/plugins/jquery-validation/dist/jquery.validate.min.js', 'jquery');
     wp_enqueue_script('jquery.validate.min');  
 
     
@@ -67,7 +67,7 @@ function alphacommerz_enqueue_scripts() {
         wp_enqueue_script('wow.min');
     }
     if (carbon_get_theme_option( 'mos_plugin_animate' ) == 'on') {
-        wp_register_style('animate', get_template_directory_uri() . '/assets/css/animate.css');	
+        wp_register_style('animate', get_template_directory_uri() . '/plugins/wow/animate.min.css');	
         wp_enqueue_style('animate');	
     }
     if (carbon_get_theme_option( 'jquery_counterup' ) == 'on') {

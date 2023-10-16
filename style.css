@@ -793,6 +793,30 @@ header.tiny .scroll-header {
   cursor: pointer;
   color: red;
 }
+#captchaimage {
+  background-image: url(images/captcha-button.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 46px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #c1b98d;
+  position: relative;
+}
+#captchaimage::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+}
+#refreshimg-capcha {
+  cursor: pointer;
+}
 @media (min-width: 576px) {
   .group-container-sm > .wp-block-group__inner-container,
   .group-container > .wp-block-group__inner-container {

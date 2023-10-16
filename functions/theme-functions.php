@@ -341,3 +341,10 @@ function mos_element_wrapper_end($element_name='div', $element_id='',  $class_na
 }
 
 //add_action( 'after_setup_theme', array( self::$instance, 'test' ) );
+
+
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = substr(str_shuffle($characters), 0, $length);                                     
+    return $randomString;
+}

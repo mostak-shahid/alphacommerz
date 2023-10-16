@@ -21,4 +21,12 @@ function dummy_ajax_callback () {
 	echo json_encode($output);
     exit; // required. to end AJAX request.
 }
+/* AJAX action callback */
+add_action( 'wp_ajax_regenerate_captcha', 'regenerate_captcha_ajax_callback' );
+add_action( 'wp_ajax_nopriv_regenerate_captcha', 'regenerate_captcha_ajax_callback' );
+/* Ajax Callback */
+function regenerate_captcha_ajax_callback () {
+	echo json_encode(generateRandomString(8));
+    exit; // required. to end AJAX request.
+}
 
