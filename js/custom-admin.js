@@ -1,4 +1,18 @@
 jQuery(document).ready(function($) {  
+     
+    $(".mos-action-cv").click(function(e) {    
+        e.preventDefault();
+        var cv = $(this).data('cv');             
+        tb_show("", cv+"?TB_iframe=true");
+        return false;
+    });
+     
+    $(".thickbox").click(function(e) {    
+        var html = $(this).data('html');
+        $("#my-content-id").html("<p>"+html+"</p>")
+    });
+    
+
     $( window ).load(function() {
         $('.html-editor').find("textarea").ace({ theme: 'twilight', lang: 'html' });
         $('.css-editor').find("textarea").ace({ theme: 'twilight', lang: 'css' });

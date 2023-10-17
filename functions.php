@@ -40,6 +40,7 @@ require_once('functions/woo-functions.php');
 require_once('functions/ocdi.php');
 require_once('functions/admin-menues.php');
 require_once('functions/custom-tables.php');
+require_once('functions/admin-table.php');
 
 /*if (version_compare($GLOBALS['wp_version'], '5.0-beta', '>')) {    
     // WP > 5 beta

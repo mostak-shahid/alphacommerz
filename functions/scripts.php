@@ -125,11 +125,14 @@ function alphacommerz_admin_enqueue_scripts(){
 
 
 	wp_register_style( 'font-awesome.min', get_template_directory_uri() . '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' );
-	wp_register_style( 'custom-admin', get_template_directory_uri() . '/css/custom-admin.css' );
 	wp_enqueue_style( 'font-awesome.min' );
+	wp_register_style( 'custom-admin', get_template_directory_uri() . '/css/custom-admin.css' );
 	wp_enqueue_style( 'custom-admin' );
 
 	wp_enqueue_media();
+
+    wp_enqueue_style('thickbox');
+    wp_enqueue_script('thickbox');  
     
 	wp_register_script('custom-admin', get_template_directory_uri() . '/js/custom-admin.js', 'jquery');
 	wp_enqueue_script('custom-admin');

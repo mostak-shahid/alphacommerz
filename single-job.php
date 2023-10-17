@@ -232,17 +232,20 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                 email: {
                     required: true,
                     email: true,
-                    /*remote: {
+                    remote: {
                         url: mos_ajax_object.ajaxurl, // or example_ajax_obj.ajaxurl if using on frontend
-                        type:"POST",
+                        type:"GET",
                         dataType:"json",
                         data: {
-                            'action': 'registration_email_tracking',
-                            emails: function(){
-                                return $('#signupForm :input[name="email"]').val();
+                            'action': 'application_email_tracking',
+                            'job_id':  function(){
+                                return $('#jobApplicationForm :input[name="job_id"]').val();
+                            },                          
+                            'email': function(){
+                                return $('#jobApplicationForm :input[name="email"]').val();
                             }
                         }
-                    }*/
+                    }
                 },  
                 phone: "required", 
                 cover_latter: "required", 
@@ -269,7 +272,7 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                 email: {                    
                     required: "Please enter your email",
                     email: "Please enter a valid email",
-                    //remote: "This email has been taken already"
+                    remote: "You have applied for this job already"
                 },   
                 phone: "please enter your Phone",
                 cover_latter: "please enter something about you",

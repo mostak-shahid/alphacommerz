@@ -1,16 +1,5 @@
 <?php
 
-/*
-Plugin Name:  Mos Admin Table
-Description: It displays a table with custom data
-Author: Md. Mostak shahid
-Author URI: https://mos.com/
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: mos-admin-table
-Version: 1.0
-*/
-
 // Loading WP_List_Table class file
 // We need to load it as it's not automatically loaded by WordPress
 if (!class_exists('WP_List_Table')) {
@@ -29,11 +18,11 @@ class Mos_List_Table extends WP_List_Table
     private function get_table_data( $search = '' ) {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'supporthost_custom_table';
+        $table = $wpdb->prefix . 'job_applications';
 
         if ( !empty($search) ) {
             return $wpdb->get_results(
-                "SELECT * from {$table} WHERE name Like '%{$search}%' OR description Like '%{$search}%' OR status Like '%{$search}%'",
+                "SELECT * from {$table} WHERE job_title Like '%{$search}%' OR p_name Like '%{$search}%' OR application_status Like '%{$search}%'",
                 ARRAY_A
             );
         } else {
@@ -49,10 +38,11 @@ class Mos_List_Table extends WP_List_Table
     {
         $columns = array(
                 'cb'            => '<input type="checkbox" />',
-                'name'          => __('Name', 'mos-admin-table'),
-                'description'         => __('Description', 'mos-admin-table'),
-                'status'   => __('Status', 'mos-admin-table'),
-                'order'        => __('Order', 'mos-admin-table')
+                'job_title'          => __('Job Title', 'mos-admin-table'),
+                'p_name'          => __('Name', 'mos-admin-table'),
+                'p_email'         => __('Email', 'mos-admin-table'),
+                'p_phone'   => __('Phone', 'mos-admin-table'),
+                'date'        => __('Application Date', 'mos-admin-table')
         );
         return $columns;
     }
@@ -96,10 +86,11 @@ class Mos_List_Table extends WP_List_Table
     {
         switch ($column_name) {
             case 'id':
-            case 'name':
-            case 'description':
-            case 'status':
-            case 'order':
+            case 'job_title':
+            case 'p_name':
+            case 'p_email':
+            case 'p_phone':
+            case 'date':
             default:
                 return $item[$column_name];
         }
@@ -118,9 +109,9 @@ class Mos_List_Table extends WP_List_Table
     protected function get_sortable_columns()
     {
         $sortable_columns = array(
-            'name'  => array('name', false),
-            'status' => array('status', false),
-            'order'   => array('order', true)
+            'job_title'  => array('job_title', false),
+            'p_name' => array('p_name', false),
+            'date'   => array('date', true)
         );
         return $sortable_columns;
     }
@@ -142,14 +133,39 @@ class Mos_List_Table extends WP_List_Table
     }
 
     // Adding action links to column
-    function column_name($item)
+    function column_p_name($item)
     {
-        $actions = array(
-                'edit'      => sprintf('<a href="?page=%s&action=%s&element=%s">' . __('Edit', 'mos-admin-table') . '</a>', $_REQUEST['page'], 'edit', $item['ID']),
-                'delete'    => sprintf('<a href="?page=%s&action=%s&element=%s">' . __('Delete', 'mos-admin-table') . '</a>', $_REQUEST['page'], 'delete', $item['ID']),
-        );
-
-        return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions));
+        $actions = [];
+        $p_additional_info = [];
+        $p_additional_info_html = "";
+        if ($item['p_additional_info'] ) {
+            $p_additional_info = json_decode($item['p_additional_info'], true);
+            foreach ($p_additional_info as $key=>$value){
+                $p_additional_info_html .= '<strong>Question: '. $value[0].'</strong><br/><span>Answer: '. $value[1].'</span><br/>';
+            } 
+        }
+        if ($item['p_cv']) {
+            $actions['cv'] = '<a class="mos-action mos-action-cv" data-cv="'.$item['p_cv'].'" href="?post_type=job&page='.$_REQUEST['page'].'&action=cv&element='.$item['ID'].'">' . __('View CV', 'mos-admin-table') . '</a>';
+            
+        }
+        if ($item['p_cover_letter']) {
+            $actions['cover-letter'] = '<a class="mos-action mos-action-data thickbox" data-html="'.$item['p_cover_letter'].'" href="#TB_inline?&width=600&height=550&inlineId=my-content-id">' . __('Cover Letter', 'mos-admin-table') . '</a>';
+        }
+        if ($item['p_additional_info']) {
+            $actions['additional-info'] = '<a class="mos-action mos-action-data thickbox" data-html="'.$p_additional_info_html.'" href="#TB_inline?&width=600&height=550&inlineId=my-content-id">' . __('Additional Info', 'mos-admin-table') . '</a>';
+        }
+        /*$actions = array(
+                
+                'cv'      => '<a class="mos-action mos-action-cv" data-cv="'.$item['p_cv'].'" href="?post_type=job&page='.$_REQUEST['page'].'&action=cv&element='.$item['ID'].'">' . __('View CV', 'mos-admin-table') . '</a>',
+                
+                'cover-letter'      => '<a class="mos-action mos-action-data thickbox" data-html="'.$item['p_cover_letter'].'" href="#TB_inline?&width=600&height=550&inlineId=my-content-id">' . __('Cover Letter', 'mos-admin-table') . '</a>',
+                
+                'additional-info'      => '<a class="mos-action mos-action-data thickbox" data-html="'.$p_additional_info_html.'" href="#TB_inline?&width=600&height=550&inlineId=my-content-id">' . __('Additional Info', 'mos-admin-table') . '</a>',
+                
+                'delete'    => sprintf('<a href="?post_type=job&page=%s&action=%s&element=%s">' . __('Delete', 'mos-admin-table') . '</a>', $_REQUEST['page'], 'delete', $item['ID']),
+        );*/
+        $actions['delete'] = sprintf('<a href="?post_type=job&page=%s&action=%s&element=%s">' . __('Delete', 'mos-admin-table') . '</a>', $_REQUEST['page'], 'delete', $item['ID']);
+        return sprintf('%1$s %2$s', $item['p_name'], $this->row_actions($actions));
     }
 
     // To show bulk action dropdown
@@ -157,7 +173,7 @@ class Mos_List_Table extends WP_List_Table
     {
             $actions = array(
                     'delete_all'    => __('Delete', 'mos-admin-table'),
-                    'draft_all' => __('Move to Draft', 'mos-admin-table')
+                    'regect_all' => __('Reject', 'mos-admin-table')
             );
             return $actions;
     }
@@ -170,7 +186,15 @@ function my_add_menu_items() {
 	global $mos_sample_page;
  
 	// add settings page
-	$mos_sample_page = add_menu_page(__('Mos List Table', 'mos-admin-table'), __('Mos List Table', 'mos-admin-table'), 'manage_options', 'mos_list_table', 'mos_list_init');
+	//$mos_sample_page = add_menu_page(__('Mos List Table', 'mos-admin-table'), __('Mos List Table', 'mos-admin-table'), 'manage_options', 'mos_list_table', 'mos_list_init');
+    $mos_sample_page = add_submenu_page( 
+        'edit.php?post_type=job', 
+        'Applications', 
+        'Applications', 
+        'manage_options', 
+        'job-applications', 
+        'mos_list_init' 
+    );
  
 	add_action("load-$mos_sample_page", "mos_sample_screen_options");
 }
@@ -201,23 +225,44 @@ function mos_sample_screen_options() {
 
 add_filter('set-screen-option', 'test_table_set_option', 10, 3);
 function test_table_set_option($status, $option, $value) {
-  return $value;
+    return $value;
 }
 
 
 // Plugin menu callback function
-function mos_list_init()
-{
-      // Creating an instance
-      $table = new Mos_List_Table();
-
-      echo '<div class="wrap"><h2>Mos Admin Table</h2>';
-      echo '<form method="post">';
-      // Prepare table
-      $table->prepare_items();
-      // Search form
-      $table->search_box('search', 'search_id');
-      // Display table
-      $table->display();
-      echo '</div></form>';
+function mos_list_init(){
+    // Creating an instance
+    $table = new Mos_List_Table();
+    echo '<div class="wrap"><h2>Mos Admin Table</h2>';
+    echo '<form method="post">';
+    // Prepare table
+    $table->prepare_items();
+    // Search form
+    $table->search_box('search', 'search_id');
+    // Display table
+    $table->display();
+    echo '</div></form>';
 }
+function mos_application_delete(){
+    // delete
+    //http://alpha-bd.test/wp-admin/edit.php?page=job-applications&action=delete&element=3
+    if (isset($_GET['action']) && $_GET['page'] == "job-applications" && $_GET['action'] == "delete") {
+        global $wpdb;
+        $elementID = intval($_GET['element']);
+        if ($elementID)
+        $wpdb->delete( $wpdb->prefix . 'job_applications', array( 'ID' => $elementID ) );
+        //... do operation
+    }
+}
+add_action('admin_head', 'mos_application_delete');
+
+//Popup
+function mos_admin_popup_content(){
+    add_thickbox();
+    ?>
+    <div id="my-content-id" style="display:none;">
+        <p>Loading...</p>
+    </div>
+    <?php
+}
+add_action('admin_footer', 'mos_admin_popup_content');

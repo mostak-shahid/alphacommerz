@@ -157,21 +157,24 @@ function mos_job_apply_form_submit(){
         if (!$err && $diff->format("%R") == "+") {
             global $wpdb;
             $table_name = $wpdb->prefix.'job_applications';
-            $wpdb->insert(
-                $table_name,
-                array(
-                    'job_id' => $job_id,
-                    'job_title' => $job_title,
-                    'p_name' => $full_name,
-                    'p_email' => $email,
-                    'p_phone' => $phone,
-                    'p_cover_letter' => $cover_latter,
-                    'p_cv' => wp_get_attachment_url( $attach_id ),
-                    'p_additional_info' => json_encode($aq),
-                    'application_status' => 'pending',
-                    'date' => date('Y-m-d'),
-                ),
-            );
+            $application_count = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name} WHERE job_id='{$job_id}' AND p_email='{$email}'" );
+            if (!$application_count){
+                $wpdb->insert(
+                    $table_name,
+                    array(
+                        'job_id' => $job_id,
+                        'job_title' => $job_title,
+                        'p_name' => $full_name,
+                        'p_email' => $email,
+                        'p_phone' => $phone,
+                        'p_cover_letter' => $cover_latter,
+                        'p_cv' => wp_get_attachment_url( $attach_id ),
+                        'p_additional_info' => json_encode($aq),
+                        'application_status' => 'pending',
+                        'date' => date('Y-m-d'),
+                    ),
+                );
+            }
             wp_redirect( home_url($_POST['_wp_http_referer'].'?application=completed') );
             die(); 
         }
@@ -179,3 +182,16 @@ function mos_job_apply_form_submit(){
 	}
 }
 add_action('init', 'mos_job_apply_form_submit');
+
+/* Add a paragraph only to Pages. */
+function job_page_content ( $content ) { 
+    $mos_job_listing_page = carbon_get_theme_option( 'mos_job_listing_page' );
+    if ( $mos_job_listing_page[0]['id'] ==  get_the_ID() && is_page() && get_post_type()=="page") {
+        //return $content . '<p>Your content added to all pages (not posts).</p>xx';
+        
+        var_dump(get_post_type());   
+    }
+
+    return $content;
+}
+add_filter( 'the_content', 'job_page_content');

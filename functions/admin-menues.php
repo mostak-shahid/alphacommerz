@@ -1,66 +1,66 @@
 <?php
-/*
-add_submenu_page( 
-    string $parent_slug, 
-    string $page_title, 
-    string $menu_title, 
-    string $capability, 
-    string $menu_slug, 
-    callable $callback = '', 
-    int|float $position = null 
-)
-*/
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
 
-/**
- * Adds a submenu page under a custom post type parent.
- */
-/*
-function mos_admin_pages_settings_init() {
-    add_submenu_page(
-        'edit.php?post_type=job',
-        __( 'Applications', 'textdomain' ),
-        __( 'Applications', 'textdomain' ),
-        'manage_options',
-        'job-applications',
-        'job_application_page_callback'
-    );
-    add_submenu_page(
-        'edit.php?post_type=job',
-        __( 'Settings', 'textdomain' ),
-        __( 'Settings', 'textdomain' ),
-        'manage_options',
-        'job-settings',
-        'job_settings_page_callback'
-    );
-}
-add_action( 'admin_init', 'mos_admin_pages_settings_init' );
+add_action('carbon_fields_register_fields', 'mos_job_theme_options');
+function mos_job_theme_options() {
+Container::make( 'theme_options', 'Settings' )
+    ->set_page_parent( 'edit.php?post_type=job' ) // identificator of the "Appearance" admin section
+    ->add_fields( array(
+        Field::make( 'association', 'mos_job_listing_page', __( 'Job listing page' ) )
+        ->set_types( array(
+            array(
+                'type'      => 'post',
+                'post_type' => 'page',
+            )
+        ))
+        ->set_max(1),  
+        Field::make( 'text', 'mos_job_company_name', __( 'Company Name' ) ),
+        Field::make( 'text', 'mos_job_hr_email', __( 'Hr Email' ) ),
+        Field::make('radio', 'mos_job_layout', __('Layout of job listing page'))
+        ->set_options(array(
+            'list' => 'List view',
+            'grid' => 'Grid view',
+        ))
+        ->set_default_value('list'),
+        Field::make( 'text', 'mos_job_layout_noc', __( 'Number of column' ) )
+        ->set_attribute( 'type', 'number' )
+        ->set_attribute( 'min', '2' )
+        ->set_attribute( 'max', '6' )
+        ->set_default_value('3')
+        ->set_required( true )                
+        ->set_conditional_logic(array(
+            'relation' => 'AND', // Optional, defaults to "AND"
+            array(
+                'field' => 'mos_job_layout',
+                'value' => 'grid', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
+                'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
+            )
+        )), 
+        Field::make( 'text', 'mos_job_layout_noj', __( 'Listings per page' ) ) 
+        ->set_attribute( 'type', 'number' )
+        ->set_default_value('10')
+        ->set_required( true ),           
+        Field::make('radio', 'mos_plugin_jquery', __('Hide expired jobs from listing page'))
+        ->set_options(array(
+            'yes' => 'Yes',
+            'no' => 'No',
+        ))
+        ->set_default_value('yes'),
 
-function job_application_page_callback() { 
-    ?>
-    <div class="wrap">
-        <h1><?php _e( 'Applications', 'textdomain' ); ?></h1>
-        <p><?php _e( 'Helpful stuff here', 'textdomain' ); ?></p>
-    </div>
-    <?php
+    ) );
 }
-function job_settings_page_callback() { 
-    ?>
-    <div class="wrap">
-        <h1><?php _e( 'Settings', 'textdomain' ); ?></h1>
-        <p><?php _e( 'Helpful stuff here', 'textdomain' ); ?></p>
-    </div>
-    <?php
-}*/
+
 function mos_plugin_options_page() {
     
-	add_submenu_page( 
+	/*add_submenu_page( 
         'edit.php?post_type=job', 
         'Applications', 
         'Applications', 
         'manage_options', 
         'job-applications', 
         'job_applications_page_callback' 
-    );
+    );*/
     
 	add_submenu_page( 
         'edit.php?post_type=job', 
@@ -71,29 +71,8 @@ function mos_plugin_options_page() {
         'job_settings_page_callback' 
     );
 }
-add_action( 'admin_menu', 'mos_plugin_options_page' );
+//add_action( 'admin_menu', 'mos_plugin_options_page' );
 
-function job_applications_page_callback() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-	if ( isset( $_GET['settings-updated'] ) ) {
-		add_settings_error( 'mos_plugin_messages', 'mos_plugin_message', __( 'Settings Saved', 'mos_plugin' ), 'updated' );
-	}
-	settings_errors( 'mos_plugin_messages' );
-	?>
-	<div class="wrap mos-plugin-wrapper">
-		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-		<form action="options.php" method="post">
-		<?php
-		//settings_fields( 'mos_plugin' );
-		//do_settings_sections( 'mos_plugin' );
-		submit_button( 'Save Settings' );
-		?>
-		</form>
-	</div>
-	<?php
-}
 
 function job_settings_page_callback() {
 	if ( ! current_user_can( 'manage_options' ) ) {
