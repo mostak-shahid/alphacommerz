@@ -42,6 +42,16 @@ require_once('functions/admin-menues.php');
 require_once('functions/custom-tables.php');
 require_once('functions/admin-table.php');
 
+function job_page_template( $page_template ){    
+    $mos_job_listing_page = carbon_get_theme_option( 'mos_job_listing_page' );
+
+    if ( $mos_job_listing_page[0]['id'] ==  get_the_ID() ) {
+        $page_template = dirname( __FILE__ ) . '/page-template/job-page-template.php';
+    }
+    return $page_template;
+}
+add_filter( 'page_template', 'job_page_template' );
+
 /*if (version_compare($GLOBALS['wp_version'], '5.0-beta', '>')) {    
     // WP > 5 beta
     add_filter('use_block_editor_for_post_type', '__return_false', 100);    

@@ -183,15 +183,3 @@ function mos_job_apply_form_submit(){
 }
 add_action('init', 'mos_job_apply_form_submit');
 
-/* Add a paragraph only to Pages. */
-function job_page_content ( $content ) { 
-    $mos_job_listing_page = carbon_get_theme_option( 'mos_job_listing_page' );
-    if ( $mos_job_listing_page[0]['id'] ==  get_the_ID() && is_page() && get_post_type()=="page") {
-        //return $content . '<p>Your content added to all pages (not posts).</p>xx';
-        
-        var_dump(get_post_type());   
-    }
-
-    return $content;
-}
-add_filter( 'the_content', 'job_page_content');

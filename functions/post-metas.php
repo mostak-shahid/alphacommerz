@@ -15,11 +15,17 @@ function mos_post_meta_options() {
         Field::make('file', 'mos_blog_details_audio', __('Audio File'))
         ->set_type(array( 'audio' ))
     ));  
+
     Container::make('post_meta', 'Job Data')
     ->where('post_type', '=', 'job')
     ->add_fields(array(
-        Field::make( 'date', 'mos_job_expired', __( 'Expired on' ) )
-            ->set_attribute( 'placeholder', __( 'Expired on' ) ),
+        Field::make('text', 'mos_job_min_education', __('Education required')),
+        Field::make('text', 'mos_job_min_experience', __('Minimun Experience')),
+        Field::make('text', 'mos_job_vacancy', __('Vacancy')),
+        Field::make('text', 'mos_job_gender', __('Gender')),
+        Field::make('text', 'mos_job_min_age', __('Age')),
+        Field::make('text', 'mos_job_salary', __('Salary')),
+        Field::make( 'date', 'mos_job_expired', __( 'Application Deadline' ) ),
            
         Field::make('complex', 'mos_additional_questions', __('Additional Questions'))
         ->add_fields(array(

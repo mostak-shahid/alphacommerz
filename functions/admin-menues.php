@@ -17,17 +17,22 @@ Container::make( 'theme_options', 'Settings' )
         ->set_max(1),  
         Field::make( 'text', 'mos_job_company_name', __( 'Company Name' ) ),
         Field::make( 'text', 'mos_job_hr_email', __( 'Hr Email' ) ),
+        Field::make( 'text', 'mos_job_no_job_text', __( 'Default \'No Jobs\' message' ) )
+        ->set_default_value('Currently no job is available'),
         Field::make('radio', 'mos_job_layout', __('Layout of job listing page'))
         ->set_options(array(
             'list' => 'List view',
             'grid' => 'Grid view',
         ))
         ->set_default_value('list'),
-        Field::make( 'text', 'mos_job_layout_noc', __( 'Number of column' ) )
-        ->set_attribute( 'type', 'number' )
-        ->set_attribute( 'min', '2' )
-        ->set_attribute( 'max', '6' )
-        ->set_default_value('3')
+        Field::make('select', 'mos_job_layout_noc', __('Number of column'))
+        ->set_options(array(
+            'col-lg-6' => '2 Columns',
+            'col-lg-4' => '3 Columns',
+            'col-lg-3' => '4 Columns',
+            'col-lg-2' => '6 Columns',
+        ))
+        ->set_default_value('col-lg-3')
         ->set_required( true )                
         ->set_conditional_logic(array(
             'relation' => 'AND', // Optional, defaults to "AND"
@@ -37,17 +42,32 @@ Container::make( 'theme_options', 'Settings' )
                 'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
             )
         )), 
+
         Field::make( 'text', 'mos_job_layout_noj', __( 'Listings per page' ) ) 
         ->set_attribute( 'type', 'number' )
         ->set_default_value('10')
         ->set_required( true ),           
-        Field::make('radio', 'mos_plugin_jquery', __('Hide expired jobs from listing page'))
+        Field::make('radio', 'mos_job_hide_expired_jobs', __('Hide expired jobs from listing page'))
         ->set_options(array(
             'yes' => 'Yes',
             'no' => 'No',
         ))
         ->set_default_value('yes'),
-
+        Field::make( "multiselect", "mos_job_metas", "Job Details for listing page" )
+        ->add_options( array(
+            'published' => 'Published on',
+            'company' => 'Company Name',
+            'vacancy' => 'Vacancy',
+            'gender' => 'Gender',
+            'salary' => 'Salary',
+            'age' => 'Age',
+            'category' => 'Job Category',
+            'type' => 'Job Type',
+            'location' => 'Job Location',
+            'education' => 'Educational Requirements',
+            'experience' => 'Experience',
+            'deadline' => 'Deadline',
+        ) )
     ) );
 }
 

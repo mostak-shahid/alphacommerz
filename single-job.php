@@ -1,7 +1,14 @@
 <?php 
 get_header();
 $post_id = get_the_ID();
+$mos_job_min_education = carbon_get_post_meta( $post_id, 'mos_job_min_education' );
+$mos_job_min_experience = carbon_get_post_meta( $post_id, 'mos_job_min_experience' );
 $mos_job_expired = carbon_get_post_meta( $post_id, 'mos_job_expired' );
+$mos_job_vacancy = carbon_get_post_meta( $post_id, 'mos_job_vacancy' );
+$mos_job_gender = carbon_get_post_meta( $post_id, 'mos_job_gender' );
+$mos_job_min_age = carbon_get_post_meta( $post_id, 'mos_job_min_age' );
+$mos_job_salary = carbon_get_post_meta( $post_id, 'mos_job_salary' );
+
 $mos_additional_questions = carbon_get_post_meta( $post_id, 'mos_additional_questions' );
 $diff = date_diff( date_create(date('Y-m-d')), date_create($mos_job_expired));
 
@@ -32,65 +39,113 @@ $job_location_list = wp_get_post_terms( $post_id, 'job_location' );
                     </div>
                     <div class="blog-info">
                         <div class="blog-intro"><?php the_content()?></div>
-                        <div class="mos-job-specification-wrapper">
-                            <?php if ($job_category_list && sizeof($job_category_list)) : ?>
-                            <div class="mos-job-specification-item mos-job-specification-job-category">
-                                <i class="fa fa-briefcase"></i>
-                                <span class="mos-job-specification-label"><strong>Job Category: </strong></span>
-                                <span class="mos-job-specification-term">
-                                    <?php 
-                                    foreach($job_category_list as $job_category){
-                                        $job_category_arr[] = $job_category->name;
-                                    }
-                                    echo implode(", ",$job_category_arr);
-                                    ?>
-                                </span> 
-                            </div>
-                            <?php endif?>
-                            <?php if ($job_type_list && sizeof($job_type_list)) : ?>
-                            <div class="mos-job-specification-item mos-job-specification-job-type">
-                                <i class="fa fa-adjust"></i>
-                                <span class="mos-job-specification-label"><strong>Job Type: </strong></span>
-                                <span class="mos-job-specification-term">
-                                    <?php 
-                                    foreach($job_type_list as $job_type){
-                                        $job_type_arr[] = $job_type->name;
-                                    }
-                                    echo implode(", ",$job_type_arr);
-                                    ?>
-                                </span>
-                            </div>
-                            <?php endif?>
-                            <?php if ($job_location_list && sizeof($job_location_list)) : ?>
-                            <div class="mos-job-specification-item mos-job-specification-job-location">
-                                <i class="fa fa-location-arrow"></i>
-                                <span class="mos-job-specification-label"><strong>Job Location: </strong></span>
-                                <span class="mos-job-specification-term">                                    
-                                    <?php 
-                                    foreach($job_location_list as $job_location){
-                                        $job_location_arr[] = $job_location->name;
-                                    }
-                                    echo implode(", ",$job_location_arr);
-                                    ?>
-                                </span> 
-                            </div>
-                            <?php endif?>
-                            <div class="mos-job-specification-item mos-job-specification-deadline">
-                                <i class="fa fa-calendar"></i>
-                                <span class="mos-job-specification-label"><strong>Deadline: </strong></span>
-                                <span class="mos-job-specification-term">
-                                <?php if ($diff->format("%R") == "+") : ?>
-                                    <?php echo date("F j, Y", strtotime($mos_job_expired)) ?>
-                                <?php else : ?>
-                                    Expired
-                                <?php endif?>
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </article>
             </div>
             <div class="col-lg-4">
+                <div class="job-meta border p-4 mb-4">
+                    <div class="mos-job-specification-wrapper">                        
+                        <div class="mos-job-specification-item mos-job-specification-job-published">                            
+                            <span class="mos-job-specification-label"><strong>Published on: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php echo get_the_date( "F j, Y" );?>
+                            </span> 
+                        </div>
+                        <?php if ($mos_job_vacancy) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-vacancy">                            
+                            <span class="mos-job-specification-label"><strong>Vacancy: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php echo $mos_job_vacancy;?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($mos_job_gender) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-gender">                            
+                            <span class="mos-job-specification-label"><strong>Gender: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php echo $mos_job_gender;?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($mos_job_salary) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-salary">                            
+                            <span class="mos-job-specification-label"><strong>Salary: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php echo $mos_job_salary;?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($mos_job_min_age) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-age">                            
+                            <span class="mos-job-specification-label"><strong>Age: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php echo $mos_job_min_age;?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($job_category_list && sizeof($job_category_list)) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-category">                            
+                            <span class="mos-job-specification-label"><strong>Job Category: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php 
+                                foreach($job_category_list as $job_category){
+                                    $job_category_arr[] = $job_category->name;
+                                }
+                                echo implode(", ",$job_category_arr);
+                                ?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($job_type_list && sizeof($job_type_list)) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-type">                            
+                            <span class="mos-job-specification-label"><strong>Job Type: </strong></span>
+                            <span class="mos-job-specification-term">
+                                <?php 
+                                foreach($job_type_list as $job_type){
+                                    $job_type_arr[] = $job_type->name;
+                                }
+                                echo implode(", ",$job_type_arr);
+                                ?>
+                            </span>
+                        </div>
+                        <?php endif?>
+                        <?php if ($job_location_list && sizeof($job_location_list)) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-location">                            
+                            <span class="mos-job-specification-label"><strong>Job Location: </strong></span>
+                            <span class="mos-job-specification-term">                                    
+                                <?php 
+                                foreach($job_location_list as $job_location){
+                                    $job_location_arr[] = $job_location->name;
+                                }
+                                echo implode(", ",$job_location_arr);
+                                ?>
+                            </span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($mos_job_min_education) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-education">                            
+                            <span class="mos-job-specification-label"><strong>Educational Requirements: </strong></span>
+                            <span class="mos-job-specification-term"><?php echo $mos_job_min_education ?></span> 
+                        </div>
+                        <?php endif?>
+                        <?php if ($mos_job_min_experience) : ?>
+                        <div class="mos-job-specification-item mos-job-specification-job-experience">                            
+                            <span class="mos-job-specification-label"><strong>Experience: </strong></span>
+                            <span class="mos-job-specification-term"><?php echo $mos_job_min_experience ?></span> 
+                        </div>
+                        <?php endif?>
+                        <div class="mos-job-specification-item mos-job-specification-deadline">                            
+                            <span class="mos-job-specification-label"><strong>Deadline: </strong></span>
+                            <span class="mos-job-specification-term">
+                            <?php if ($diff->format("%R") == "+") : ?>
+                                <?php echo date("F j, Y", strtotime($mos_job_expired)) ?>
+                            <?php else : ?>
+                                Expired
+                            <?php endif?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="application-form-wrapper sticky-xl-top border p-4" style="top: 80px">
                 <?php if ($diff->format("%R") == "+") : ?>
                     <h2>Apply for this position	</h2>
