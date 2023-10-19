@@ -259,6 +259,8 @@ function alphacommerz_footer_scripts(){
                     time: 1000
                 });
             <?php endif?>
+            
+
         });
     </script>
     <?php 

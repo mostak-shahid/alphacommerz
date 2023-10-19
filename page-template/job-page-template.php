@@ -1,3 +1,4 @@
+<?php /*Template Name: Jobs Template*/ ?>
 <?php
 $mos_job_company_name = carbon_get_theme_option( 'mos_job_company_name' )?carbon_get_theme_option( 'mos_job_company_name' ):get_bloginfo( 'name' );
 $mos_job_layout = carbon_get_theme_option( 'mos_job_layout' );
@@ -9,7 +10,7 @@ $mos_job_metas = carbon_get_theme_option( 'mos_job_metas' );
 ?>
 <?php get_header() ?>
 <?php the_content() ?>
-<section class="job-listing <?php echo $mos_job_layout ?>-layout <?php echo ($mos_job_layout_noc)?$mos_job_layout_noc:1 ?>-grid py-5">
+<section class="job-listing <?php echo $mos_job_layout ?>-layout py-5">
 <?php
 $args = array(
     'post_type' => 'job',

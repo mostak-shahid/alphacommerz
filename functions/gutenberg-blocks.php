@@ -980,6 +980,146 @@ function mos_gutenberg_blocks() {
         <?php
         endif;
     }); 
+    //Team Block start
+    Block::make(__('Team Block'))
+    ->set_icon('admin-users')
+    ->add_tab(__('Content'), array(
+        Field::make( 'image', 'mos_team_block_image', 'Image' )
+        ->set_value_type( 'url' )
+        ->set_required( true ),
+        Field::make('text', 'mos_team_block_name', __('Name'))
+        ->set_required( true ),
+        Field::make('text', 'mos_team_block_designation', __('Designation')),
+        Field::make('text', 'mos_team_block_link', __('Link'))
+        ->set_attribute( 'type', 'url' ),
+        Field::make( 'rich_text', 'mos_team_block_intro', 'Intro' )
+    ))
+    ->add_tab(__('Style'), array(
+        Field::make('text', 'mos_team_block_wrapper_class', __('Wrapper Class')),
+        Field::make('text', 'mos_team_block_title_class', __('Title Class')),
+        Field::make('text', 'mos_team_block_degination_class', __('Degination Class')),
+        Field::make('text', 'mos_team_block_content_class', __('Content Class')),
+
+        Field::make( 'color', 'mos_team_block_title_color', 'Title Color' ),
+        Field::make( 'color', 'mos_team_block_degination_color', 'Degination Color' ),
+        Field::make( 'color', 'mos_team_block_content_color', 'Content Color' ),
+
+        Field::make('complex', 'mos_team_block_background', __('Background'))
+        ->set_max(1)
+        ->set_collapsed(true)
+        ->add_fields(array(
+            Field::make('color', 'background-color', __('Background Color')),
+            Field::make('image', 'background-image', __('Background Image')),
+            Field::make('select', 'background-position', __('Background Position'))
+            ->set_options(array(
+                'top left' => 'Top Left',
+                'top center' => 'Top Center',
+                'top right' => 'Top Right',
+                'center left' => 'Center Left',
+                'center center' => 'Center Center',
+                'center right' => 'Center Right',
+                'bottom left' => 'Bottom left',
+                'bottom center' => 'Bottom Center',
+                'bottom right' => 'Bottom Right',
+            ))
+            ->set_default_value(['top left']),
+            Field::make('select', 'background-size', __('Background Size'))
+            ->set_options(array(
+                'cover' => 'cover',
+                'contain' => 'contain',
+                'auto' => 'auto',
+                'inherit' => 'inherit',
+                'initial' => 'initial',
+                'revert' => 'revert',
+                'revert-layer' => 'revert-layer',
+                'unset' => 'unset',
+            ))
+            ->set_default_value('cover'),
+            //background-repeat: repeat|repeat-x|repeat-y|no-repeat|initial|inherit;
+            Field::make('select', 'background-repeat', __('Background Repeat'))
+            ->set_options(array(
+                'repeat' => 'repeat',
+                'repeat-x' => 'repeat-x',
+                'repeat-y' => 'repeat-y',
+                'no-repeat' => 'no-repeat',
+                'initial' => 'initial',
+                'inherit' => 'inherit',
+            ))
+            ->set_default_value('repeat'),
+            Field::make('select', 'background-attachment', __('Background Attachment'))
+            ->set_options(array(
+                'scroll' => 'Scroll',
+                'fixed' => 'Fixed',
+            ))
+            ->set_default_value('scroll'),
+        )),
+    )) 
+    ->add_tab(__('Advanced'), array(
+        Field::make('textarea', 'mos_team_block_style', __('Style'))
+        ->set_help_text('Please write your custom css without style tag'),
+        Field::make('textarea', 'mos_team_block_script', __('Script'))
+        ->set_help_text('Please write your custom script without script tag'),
+    ))  
+    ->set_render_callback(function ($fields, $attributes, $inner_blocks) {        
+        $id = 'element-'.time().rand(1000, 9999);
+    ?>
+        <div id="<?php echo $id ?>" class="mos-team-block-wrapper single-team-member <?php echo @$fields['mos_team_block_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"  style="<?php if (@$fields['mos_team_block_content_color']) echo 'color:'.$fields['mos_team_block_content_color'] ?>">                 
+            <div class="team-member-photo">
+                <img src="<?php echo $fields['mos_team_block_image'] ?>" alt="<?php echo $fields['mos_team_block_name'] ?>">
+                <?php if (@$fields['mos_team_block_link']) : ?>
+                    <a class="view-full-size" href="<?php echo $fields['mos_team_block_link'] ?>" target="_blank" rel="noopener"><span>Know more</span></a>
+                <?php endif?>
+            </div>            
+            <div class="team-member-details">                    
+                <?php if (@$fields['mos_team_block_link']) : ?>
+                    <a href="<?php echo $fields['mos_team_block_link'] ?>" target="_blank" rel="noopener">
+                        <h4 class="<?php echo @$fields['mos_team_block_title_class']; ?>" style="<?php if (@$fields['mos_team_block_title_color']) echo 'color:'.$fields['mos_team_block_title_color'] ?>"><?php echo $fields['mos_team_block_name'] ?></h4>
+                    </a>
+                <?php else : ?>
+                    <h4 class="<?php echo @$fields['mos_team_block_title_class']; ?>" style="<?php if (@$fields['mos_team_block_title_color']) echo 'color:'.$fields['mos_team_block_title_color'] ?>"><?php echo $fields['mos_team_block_name'] ?></h4>
+                <?php endif?>
+
+                <?php if (@$fields['mos_team_block_designation']) : ?>
+                <span class="caps_small <?php echo @$fields['mos_team_block_degination_class']; ?>" style="<?php if (@$fields['mos_team_block_degination_color']) echo 'color:'.$fields['mos_team_block_degination_color'] ?>"><?php echo $fields['mos_team_block_designation']?></span>
+                <?php endif?>
+
+                <?php if (@$fields['mos_team_block_intro']) : ?>
+                <div class="team-member-short-description <?php echo @$fields['mos_team_block_content_class']; ?>"><?php echo $fields['mos_team_block_intro']?></div>
+                <?php endif?>
+            </div>
+        </div>        
+        <?php if(@$fields['mos_team_block_style']) : ?>
+        <style><?php echo str_replace("selector",'#'.$id,$fields['mos_team_block_style']); ?></style>
+        <?php endif?>
+        
+        <style>            
+            <?php echo '#'.$id ?> {
+                <?php if (@$fields['mos_team_block_background'][0]['background-color']) : ?>
+                    background-color: <?php echo $fields['mos_team_block_background'][0]['background-color'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_team_block_background'][0]['background-image']) : ?>
+                    background-image: url(<?php echo wp_get_attachment_url($fields['mos_team_block_background'][0]['background-image']) ?>);
+                <?php endif?>
+                <?php if (@$fields['mos_team_block_background'][0]['background-position']) : ?>
+                    background-position: <?php echo $fields['mos_team_block_background'][0]['background-position'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_team_block_background'][0]['background-size']) : ?>
+                    background-size: <?php echo $fields['mos_team_block_background'][0]['background-size'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_team_block_background'][0]['background-repeat']) : ?>
+                    background-repeat: <?php echo $fields['mos_team_block_background'][0]['background-repeat'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_team_block_background'][0]['background-attachment']) : ?>
+                    background-attachment: <?php echo $fields['mos_team_block_background'][0]['background-attachment'] ?>;
+                <?php endif?>
+            }
+        </style>
+        <?php if(@$fields['mos_team_block_script']) : ?>
+        <script><?php echo $fields['mos_team_block_script']; ?></script>
+        <?php endif?>
+    <?php
+    }); 
+    //Team Block end
     //Slider Block end
     if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
@@ -1061,211 +1201,211 @@ function mos_gutenberg_blocks() {
         }); 
         //Product Categories Block end
         
-    //Product Slider Block start
-    Block::make(__('Product Slider Block'))
-    ->set_icon('format-gallery')
-    ->add_tab(__('Query'), array(
-        Field::make( 'select', 'mos_product_slider_block_option', __('Choose Options'))
-        ->set_options( array(
-            'latest'=>'Latest Product',
-            'toprated'=>'Top rated',
-            'featured'=>'Featured',
-            'bestselling'=>'Best Selling',
-            'onsale'=>'On Sale',
-            'bycategory'=>'By Category',
-            'custom'=>'Custom Select',
-        )),
-        Field::make( 'association', 'mos_product_slider_block_category_items', __('Select Categories'))
-        ->set_conditional_logic( array(
-            'relation' => 'AND', // Optional, defaults to "AND"
-            array(
-                'field' => 'mos_product_slider_block_option',
-                'value' => 'bycategory', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
-                'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
-            )
-        ))
-        ->set_types( array(
-            array(
-                'type' => 'term',
-                'taxonomy' => 'product_cat',
-            ),
-        ))
-        ->set_min(1)
-        ->set_required( true ),
-        Field::make( 'association', 'mos_product_slider_block_product_items', __('Select Products'))
-        ->set_conditional_logic( array(
-            'relation' => 'AND', // Optional, defaults to "AND"
-            array(
-                'field' => 'mos_product_slider_block_option',
-                'value' => 'custom', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
-                'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
-            )
-        ))
-        ->set_types( array(
-            array(
-                'type' => 'post',
-                'post_type' => 'product',
-            ),
-        ))
-        ->set_min(1)
-        ->set_required( true ),
-        Field::make('text', 'mos_product_slider_block_nop', __('Product to show'))
-        ->set_conditional_logic( array(
-            'relation' => 'AND', // Optional, defaults to "AND"
-            array(
-                'field' => 'mos_product_slider_block_option',
-                'value' => 'custom', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
-                'compare' => '!=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
-            )
-        ))
-        ->set_attribute( 'type', 'number' )
-        ->set_attribute( 'min', '-1' ),
-        Field::make( 'checkbox', 'mos_product_slider_block_hide_outofstock', __( 'Hide out of stock products' ) )
-    ))
-    ->add_tab(__('Slider Settings'), array(
-        Field::make('text', 'mos_product_slider_block_desktop_count', __('Desktop Items'))
-        ->set_attribute( 'type', 'number' )
-        ->set_attribute( 'min', 1 )
-        ->set_default_value(3),
-        Field::make('text', 'mos_product_slider_block_tab_count', __('Tab Items'))
-        ->set_attribute( 'type', 'number' )
-        ->set_attribute( 'min', 1 )
-        ->set_default_value(2),
-        Field::make('text', 'mos_product_slider_block_mobile_count', __('Mobile Items'))
-        ->set_attribute( 'type', 'number' )
-        ->set_attribute( 'min', 1 )
-        ->set_default_value(1),
-        Field::make( 'checkbox', 'mos_product_slider_block_show_nav', __('Show Nav')),
-        Field::make( 'checkbox', 'mos_product_slider_block_show_dots', __('Show Dots')),
-        Field::make( 'checkbox', 'mos_product_slider_block_autoplay', __('Autoplay')),
-        Field::make( 'checkbox', 'mos_product_slider_block_hover_pause', __('Hover Pause')),
-        Field::make('text', 'mos_product_slider_block_autoplay_timeout', __('Autoplay Time'))
-        ->set_attribute( 'type', 'number' )
-        ->set_default_value(3000),
-    )) 
-    ->add_tab(__('Style'), array(
-        Field::make('text', 'mos_product_slider_block_wrapper_class', __('Wrapper Class')),
-        Field::make('text', 'mos_product_slider_block_unit_class', __('Unit Class')),
-    )) 
-    ->add_tab(__('Advanced'), array(
-        Field::make('textarea', 'mos_product_slider_block_style', __('Style'))
-        ->set_help_text('Please write your custom css without style tag, you can use selector tag to target the parent element'),
-        Field::make('textarea', 'mos_product_slider_block_script', __('Script'))
-        ->set_help_text('Please write your custom script without script tag'),
-    ))  
-    ->set_render_callback(function ($fields, $attributes, $inner_blocks) {
-        
-        $args = array(
-			'post_status'    => 'publish',
-			'post_type'      => 'product',
-		);
-        if (@$fields['mos_product_slider_block_nop']) $args['posts_per_page'] = $fields['mos_product_slider_block_nop'];
-        $args['orderby'] = 'meta_value';
-        $args['meta_key'] = '_stock_status';
-        $args['order'] = 'ASC';
-        $args['meta_query']['relation'] = 'OR';
-        if (@$fields['mos_product_slider_block_hide_outofstock']){
-            $args['meta_query'] = array(
+        //Product Slider Block start
+        Block::make(__('Product Slider Block'))
+        ->set_icon('format-gallery')
+        ->add_tab(__('Query'), array(
+            Field::make( 'select', 'mos_product_slider_block_option', __('Choose Options'))
+            ->set_options( array(
+                'latest'=>'Latest Product',
+                'toprated'=>'Top rated',
+                'featured'=>'Featured',
+                'bestselling'=>'Best Selling',
+                'onsale'=>'On Sale',
+                'bycategory'=>'By Category',
+                'custom'=>'Custom Select',
+            )),
+            Field::make( 'association', 'mos_product_slider_block_category_items', __('Select Categories'))
+            ->set_conditional_logic( array(
+                'relation' => 'AND', // Optional, defaults to "AND"
                 array(
-                    'key' => '_stock_status',
-                    'value' => 'instock'
+                    'field' => 'mos_product_slider_block_option',
+                    'value' => 'bycategory', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
+                    'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
                 )
-            );
-        }
-
-        if (@$fields['mos_product_slider_block_option'] == 'toprated') {
-            $args['meta_key'] = '_wc_average_rating';
-            $args['orderby'] = 'meta_value_num';
-            $args['orderby'] = 'meta_value_num';
-			$args['order'] = 'DESC';
-        } elseif (@$fields['mos_product_slider_block_option'] == 'featured') {
-            $tax_query[] = array(
-                'taxonomy' => 'product_visibility',
-                'field'    => 'name',
-                'terms'    => 'featured',
-                'operator' => 'IN', // or 'NOT IN' to exclude feature products
-            );
-            $args['tax_query'] = $tax_query;
-        } elseif (@$fields['mos_product_slider_block_option'] == 'bestselling') {            
-            $args['meta_key'] = 'total_sales';
-            $args['orderby'] = 'meta_value_num';
-            $args['order'] = 'DESC';
-        } elseif (@$fields['mos_product_slider_block_option'] == 'onsale') {
-            $args['meta_query'] = array(
-                //'relation' => 'OR',
-                array( // Simple products type
-                    'key'           => '_sale_price',
-                    'value'         => 0,
-                    'compare'       => '>',
-                    'type'          => 'numeric'
+            ))
+            ->set_types( array(
+                array(
+                    'type' => 'term',
+                    'taxonomy' => 'product_cat',
                 ),
-                array( // Variable products type
-                    'key'           => '_min_variation_sale_price',
-                    'value'         => 0,
-                    'compare'       => '>',
-                    'type'          => 'numeric'
+            ))
+            ->set_min(1)
+            ->set_required( true ),
+            Field::make( 'association', 'mos_product_slider_block_product_items', __('Select Products'))
+            ->set_conditional_logic( array(
+                'relation' => 'AND', // Optional, defaults to "AND"
+                array(
+                    'field' => 'mos_product_slider_block_option',
+                    'value' => 'custom', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
+                    'compare' => '=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
                 )
+            ))
+            ->set_types( array(
+                array(
+                    'type' => 'post',
+                    'post_type' => 'product',
+                ),
+            ))
+            ->set_min(1)
+            ->set_required( true ),
+            Field::make('text', 'mos_product_slider_block_nop', __('Product to show'))
+            ->set_conditional_logic( array(
+                'relation' => 'AND', // Optional, defaults to "AND"
+                array(
+                    'field' => 'mos_product_slider_block_option',
+                    'value' => 'custom', // Optional, defaults to "". Should be an array if "IN" or "NOT IN" operators are used.
+                    'compare' => '!=', // Optional, defaults to "=". Available operators: =, <, >, <=, >=, IN, NOT IN
+                )
+            ))
+            ->set_attribute( 'type', 'number' )
+            ->set_attribute( 'min', '-1' ),
+            Field::make( 'checkbox', 'mos_product_slider_block_hide_outofstock', __( 'Hide out of stock products' ) )
+        ))
+        ->add_tab(__('Slider Settings'), array(
+            Field::make('text', 'mos_product_slider_block_desktop_count', __('Desktop Items'))
+            ->set_attribute( 'type', 'number' )
+            ->set_attribute( 'min', 1 )
+            ->set_default_value(3),
+            Field::make('text', 'mos_product_slider_block_tab_count', __('Tab Items'))
+            ->set_attribute( 'type', 'number' )
+            ->set_attribute( 'min', 1 )
+            ->set_default_value(2),
+            Field::make('text', 'mos_product_slider_block_mobile_count', __('Mobile Items'))
+            ->set_attribute( 'type', 'number' )
+            ->set_attribute( 'min', 1 )
+            ->set_default_value(1),
+            Field::make( 'checkbox', 'mos_product_slider_block_show_nav', __('Show Nav')),
+            Field::make( 'checkbox', 'mos_product_slider_block_show_dots', __('Show Dots')),
+            Field::make( 'checkbox', 'mos_product_slider_block_autoplay', __('Autoplay')),
+            Field::make( 'checkbox', 'mos_product_slider_block_hover_pause', __('Hover Pause')),
+            Field::make('text', 'mos_product_slider_block_autoplay_timeout', __('Autoplay Time'))
+            ->set_attribute( 'type', 'number' )
+            ->set_default_value(3000),
+        )) 
+        ->add_tab(__('Style'), array(
+            Field::make('text', 'mos_product_slider_block_wrapper_class', __('Wrapper Class')),
+            Field::make('text', 'mos_product_slider_block_unit_class', __('Unit Class')),
+        )) 
+        ->add_tab(__('Advanced'), array(
+            Field::make('textarea', 'mos_product_slider_block_style', __('Style'))
+            ->set_help_text('Please write your custom css without style tag, you can use selector tag to target the parent element'),
+            Field::make('textarea', 'mos_product_slider_block_script', __('Script'))
+            ->set_help_text('Please write your custom script without script tag'),
+        ))  
+        ->set_render_callback(function ($fields, $attributes, $inner_blocks) {
+            
+            $args = array(
+                'post_status'    => 'publish',
+                'post_type'      => 'product',
             );
-        } elseif (@$fields['mos_product_slider_block_option'] == 'bycategory') {
-            $args['tax_query']['relation'] = 'OR';
-            foreach($fields['mos_product_slider_block_category_items'] as $cat) {
-                $cat_ids[] = $cat['id'];
-            }            
-            $args['tax_query']['cat'] = array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'term_id',
-                'terms'    => $cat_ids,
-            );
-
-        } elseif (@$fields['mos_product_slider_block_option'] == 'custom') {
-            //'post__in' => array( 2, 5, 12, 14, 20 )
-            foreach($fields['mos_product_slider_block_product_items'] as $product) {
-                $product_ids[] = $product['id'];
+            if (@$fields['mos_product_slider_block_nop']) $args['posts_per_page'] = $fields['mos_product_slider_block_nop'];
+            $args['orderby'] = 'meta_value';
+            $args['meta_key'] = '_stock_status';
+            $args['order'] = 'ASC';
+            $args['meta_query']['relation'] = 'OR';
+            if (@$fields['mos_product_slider_block_hide_outofstock']){
+                $args['meta_query'] = array(
+                    array(
+                        'key' => '_stock_status',
+                        'value' => 'instock'
+                    )
+                );
             }
-            $args['post__in'] = $product_ids;
-        }
-		$query = new WP_Query( $args );
-        if ( $query->have_posts() ) {
-            //var_dump($query);
-            $id = 'element-'.time().rand(1000, 9999);
-        ?>
-            <div id="<?php echo $id ?>" class="mos-product-slider-block-wrapper <?php echo @$fields['mos_product_slider_block_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"> 
-                <div class="products mos-slider mos-owl-carousel owl-carousel owl-theme" data-carousel-options='{
-                    "nav":<?php echo (@$fields['mos_product_slider_block_show_nav'])?"true":"false" ?>,
-                    "dots":<?php echo (@$fields['mos_product_slider_block_show_dots'])?"true":"false" ?>,
-                    "autoplay":<?php echo (@$fields['mos_product_slider_block_autoplay'])?"true":"false" ?>,
-                    "autoplayTimeout":"<?php echo (@$fields['mos_product_slider_block_autoplay_timeout'])?$fields['mos_product_slider_block_autoplay_timeout']:3000 ?>",
-                    "autoplayHoverPause":<?php echo (@$fields['mos_product_slider_block_hover_pause'])?"true":"false" ?>,
-                    "responsive":{
-                        "0":{
-                            "items":"<?php echo (@$fields['mos_product_slider_block_mobile_count'])?$fields['mos_product_slider_block_mobile_count']:1 ?>"
-                        },
-                        "600":{
-                            "items":"<?php echo (@$fields['mos_product_slider_block_tab_count'])?$fields['mos_product_slider_block_tab_count']:2 ?>"
-                        },
-                        "1000":{
-                            "items":"<?php echo (@$fields['mos_product_slider_block_desktop_count'])?$fields['mos_product_slider_block_desktop_count']:3 ?>"
+
+            if (@$fields['mos_product_slider_block_option'] == 'toprated') {
+                $args['meta_key'] = '_wc_average_rating';
+                $args['orderby'] = 'meta_value_num';
+                $args['orderby'] = 'meta_value_num';
+                $args['order'] = 'DESC';
+            } elseif (@$fields['mos_product_slider_block_option'] == 'featured') {
+                $tax_query[] = array(
+                    'taxonomy' => 'product_visibility',
+                    'field'    => 'name',
+                    'terms'    => 'featured',
+                    'operator' => 'IN', // or 'NOT IN' to exclude feature products
+                );
+                $args['tax_query'] = $tax_query;
+            } elseif (@$fields['mos_product_slider_block_option'] == 'bestselling') {            
+                $args['meta_key'] = 'total_sales';
+                $args['orderby'] = 'meta_value_num';
+                $args['order'] = 'DESC';
+            } elseif (@$fields['mos_product_slider_block_option'] == 'onsale') {
+                $args['meta_query'] = array(
+                    //'relation' => 'OR',
+                    array( // Simple products type
+                        'key'           => '_sale_price',
+                        'value'         => 0,
+                        'compare'       => '>',
+                        'type'          => 'numeric'
+                    ),
+                    array( // Variable products type
+                        'key'           => '_min_variation_sale_price',
+                        'value'         => 0,
+                        'compare'       => '>',
+                        'type'          => 'numeric'
+                    )
+                );
+            } elseif (@$fields['mos_product_slider_block_option'] == 'bycategory') {
+                $args['tax_query']['relation'] = 'OR';
+                foreach($fields['mos_product_slider_block_category_items'] as $cat) {
+                    $cat_ids[] = $cat['id'];
+                }            
+                $args['tax_query']['cat'] = array(
+                    'taxonomy' => 'product_cat',
+                    'field'    => 'term_id',
+                    'terms'    => $cat_ids,
+                );
+
+            } elseif (@$fields['mos_product_slider_block_option'] == 'custom') {
+                //'post__in' => array( 2, 5, 12, 14, 20 )
+                foreach($fields['mos_product_slider_block_product_items'] as $product) {
+                    $product_ids[] = $product['id'];
+                }
+                $args['post__in'] = $product_ids;
+            }
+            $query = new WP_Query( $args );
+            if ( $query->have_posts() ) {
+                //var_dump($query);
+                $id = 'element-'.time().rand(1000, 9999);
+            ?>
+                <div id="<?php echo $id ?>" class="mos-product-slider-block-wrapper <?php echo @$fields['mos_product_slider_block_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"> 
+                    <div class="products mos-slider mos-owl-carousel owl-carousel owl-theme" data-carousel-options='{
+                        "nav":<?php echo (@$fields['mos_product_slider_block_show_nav'])?"true":"false" ?>,
+                        "dots":<?php echo (@$fields['mos_product_slider_block_show_dots'])?"true":"false" ?>,
+                        "autoplay":<?php echo (@$fields['mos_product_slider_block_autoplay'])?"true":"false" ?>,
+                        "autoplayTimeout":"<?php echo (@$fields['mos_product_slider_block_autoplay_timeout'])?$fields['mos_product_slider_block_autoplay_timeout']:3000 ?>",
+                        "autoplayHoverPause":<?php echo (@$fields['mos_product_slider_block_hover_pause'])?"true":"false" ?>,
+                        "responsive":{
+                            "0":{
+                                "items":"<?php echo (@$fields['mos_product_slider_block_mobile_count'])?$fields['mos_product_slider_block_mobile_count']:1 ?>"
+                            },
+                            "600":{
+                                "items":"<?php echo (@$fields['mos_product_slider_block_tab_count'])?$fields['mos_product_slider_block_tab_count']:2 ?>"
+                            },
+                            "1000":{
+                                "items":"<?php echo (@$fields['mos_product_slider_block_desktop_count'])?$fields['mos_product_slider_block_desktop_count']:3 ?>"
+                            }
                         }
-                    }
-                }'>  
-                    <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-                        
-                        <?php wc_get_template( 'content-product.php' ); ?>
-                        
-                    <?php endwhile?>  
+                    }'>  
+                        <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+                            
+                            <?php wc_get_template( 'content-product.php' ); ?>
+                            
+                        <?php endwhile?>  
+                    </div>
                 </div>
-            </div>
-            <?php if(@$fields['mos_product_slider_block_style']) : ?>
-            <style><?php echo str_replace("selector",'#'.$id,$fields['mos_product_slider_block_style']); ?></style>
-            <?php endif?>
-            <?php if(@$fields['mos_product_slider_block_script']) : ?>
-            <script><?php echo $fields['mos_product_slider_block_script']; ?></script>
-            <?php endif?>
-        <?php
-        }
-        //wp_reset_postdata();
-    }); 
-    //Product Slider Block end
+                <?php if(@$fields['mos_product_slider_block_style']) : ?>
+                <style><?php echo str_replace("selector",'#'.$id,$fields['mos_product_slider_block_style']); ?></style>
+                <?php endif?>
+                <?php if(@$fields['mos_product_slider_block_script']) : ?>
+                <script><?php echo $fields['mos_product_slider_block_script']; ?></script>
+                <?php endif?>
+            <?php
+            }
+            //wp_reset_postdata();
+        }); 
+        //Product Slider Block end
 
     } 
 }
