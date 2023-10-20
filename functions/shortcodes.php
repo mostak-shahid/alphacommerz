@@ -187,12 +187,12 @@ function map_func($atts = array(), $content = '') {
 <span class="map-wrapper <?php echo $atts['class'] ?>">
     <?php if (!is_numeric($atts['display'])) : ?>
         <?php foreach($maps as $map) :?>
-            <div class="ratio ratio-16x9">
+            <div class="ratio ratio-map">
                 <iframe src="<?php echo $address['link'] ?>" allowfullscreen></iframe>
             </div>
         <?php endforeach;?>
     <?php else : ?>
-        <div class="ratio ratio-16x9">
+        <div class="ratio ratio-map">
             <iframe src="<?php echo $addresss[$atts['display']]['link'] ?>" allowfullscreen></iframe>
         </div>
     <?php endif ?>

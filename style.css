@@ -994,6 +994,9 @@ a.view-full-size:focus {
   position: absolute;
   z-index: 9;
 }
+.ratio-map.ratio::before {
+  padding-top: 400px;
+}
 @media (min-width: 576px) {
   .group-container-sm > .wp-block-group__inner-container,
   .group-container > .wp-block-group__inner-container {
