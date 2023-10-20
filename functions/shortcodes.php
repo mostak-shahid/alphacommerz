@@ -126,13 +126,13 @@ function phone_func($atts = array(), $content = '') {
     <?php foreach($phones as $phone) :?>
     <span class="phone-unit">
         <span class="phone-title <?php if(!$atts['title']) echo 'd-none'?>"><?php echo $phone['title'] ?></span>
-        <span class="phone-link"><a href="mailto:<?php echo $phone['number'] ?>"><?php echo $phone['number'] ?></a></span>
+        <span class="phone-link"><a href="tel:<?php echo $phone['number'] ?>"><?php echo $phone['number'] ?></a></span>
     </span>
     <?php endforeach;?>
     <?php else : ?>
     <span class="phone-unit">
         <span class="phone-title <?php if(!$atts['title']) echo 'd-none'?>"><?php echo $phones[$atts['display']]['title'] ?></span>
-        <span class="phone-link"><a href="mailto:<?php echo $phones[$atts['display']]['number'] ?>"><?php echo $phones[$atts['display']]['number'] ?></a></span>
+        <span class="phone-link"><a href="tel:<?php echo $phones[$atts['display']]['number'] ?>"><?php echo $phones[$atts['display']]['number'] ?></a></span>
     </span>
     <?php endif ?>
     <?php echo do_shortcode($content) ?>
@@ -142,6 +142,38 @@ function phone_func($atts = array(), $content = '') {
     return $html;
 }
 add_shortcode( 'phone', 'phone_func' );
+
+function address_func($atts = array(), $content = '') {
+	$atts = shortcode_atts( array(
+        'class' => '',
+        'display' => 'all',
+		'title' => 0,
+	), $atts, 'address' );  
+    ob_start();     
+    $addresss = carbon_get_theme_option( 'mos-contact-address' );  
+    if($addresss && sizeof($addresss)) :
+    ?>
+<span class="address-wrapper <?php echo $atts['class'] ?>">
+    <?php if (!is_numeric($atts['display'])) : ?>
+    <?php foreach($addresss as $address) :?>
+    <span class="address-unit">
+        <span class="address-title <?php if(!$atts['title']) echo 'd-none'?>"><?php echo $address['title'] ?></span>
+        <span class="address-link"><?php echo $address['address'] ?></span>
+    </span>
+    <?php endforeach;?>
+    <?php else : ?>
+    <span class="address-unit">
+        <span class="address-title <?php if(!$atts['title']) echo 'd-none'?>"><?php echo $addresss[$atts['display']]['title'] ?></span>
+        <span class="address-link"><?php echo $addresss[$atts['display']]['number'] ?></span>
+    </span>
+    <?php endif ?>
+    <?php echo do_shortcode($content) ?>
+</span>
+<?php endif?>
+<?php $html = ob_get_clean();
+    return $html;
+}
+add_shortcode( 'address', 'address_func' );
 
 function mos_mobile_menu_func( $atts = array(), $content = null ) {
 	$html = '';
@@ -206,7 +238,7 @@ add_shortcode( 'post-excerpt', 'mos_get_the_excerpt' );
 
 function mos_get_the_page_intro(){
     $intro = carbon_get_post_meta( get_the_ID(), 'intro' );
-    if ($intro) return '<div class="short-desc">'.$excerpt.'</div>';
+    if ($intro) return '<div class="short-desc">'.$intro.'</div>';
     return '';
 }
 add_shortcode( 'page-excerpt', 'mos_get_the_page_intro' );
