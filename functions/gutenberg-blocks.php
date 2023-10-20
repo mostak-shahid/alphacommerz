@@ -980,6 +980,7 @@ function mos_gutenberg_blocks() {
         <?php
         endif;
     }); 
+    
     //Team Block start
     Block::make(__('Team Block'))
     ->set_icon('admin-users')
@@ -1120,6 +1121,125 @@ function mos_gutenberg_blocks() {
     <?php
     }); 
     //Team Block end
+    //Chart Block start
+    Block::make(__('Chart Block'))
+    ->set_icon('chart-pie')
+    ->add_tab(__('Content'), array(
+        Field::make('text', 'mos_chart_block_value', __('Value'))        
+        ->set_attribute('type', 'number')
+        ->set_required( true ),
+    ))
+    ->add_tab(__('Style'), array(
+        Field::make('text', 'mos_chart_block_wrapper_class', __('Wrapper Class')),
+        Field::make('text', 'mos_chart_block_radius', __('Radius'))        
+        ->set_attribute('type', 'number'),
+        Field::make('text', 'mos_chart_block_thickness', __('Thickness'))        
+        ->set_attribute('type', 'number'),
+        Field::make('text', 'mos_chart_block_padding', __('Padding'))        
+        ->set_attribute('type', 'number'),
+        Field::make( 'color', 'mos_chart_block_color', 'Color' ),
+        Field::make( 'color', 'mos_chart_block_bg', 'Background Color' ),
+        Field::make('complex', 'mos_chart_block_background', __('Background'))
+        ->set_max(1)
+        ->set_collapsed(true)
+        ->add_fields(array(
+            Field::make('color', 'background-color', __('Background Color')),
+            Field::make('image', 'background-image', __('Background Image')),
+            Field::make('select', 'background-position', __('Background Position'))
+            ->set_options(array(
+                'top left' => 'Top Left',
+                'top center' => 'Top Center',
+                'top right' => 'Top Right',
+                'center left' => 'Center Left',
+                'center center' => 'Center Center',
+                'center right' => 'Center Right',
+                'bottom left' => 'Bottom left',
+                'bottom center' => 'Bottom Center',
+                'bottom right' => 'Bottom Right',
+            ))
+            ->set_default_value(['top left']),
+            Field::make('select', 'background-size', __('Background Size'))
+            ->set_options(array(
+                'cover' => 'cover',
+                'contain' => 'contain',
+                'auto' => 'auto',
+                'inherit' => 'inherit',
+                'initial' => 'initial',
+                'revert' => 'revert',
+                'revert-layer' => 'revert-layer',
+                'unset' => 'unset',
+            ))
+            ->set_default_value('cover'),
+            //background-repeat: repeat|repeat-x|repeat-y|no-repeat|initial|inherit;
+            Field::make('select', 'background-repeat', __('Background Repeat'))
+            ->set_options(array(
+                'repeat' => 'repeat',
+                'repeat-x' => 'repeat-x',
+                'repeat-y' => 'repeat-y',
+                'no-repeat' => 'no-repeat',
+                'initial' => 'initial',
+                'inherit' => 'inherit',
+            ))
+            ->set_default_value('repeat'),
+            Field::make('select', 'background-attachment', __('Background Attachment'))
+            ->set_options(array(
+                'scroll' => 'Scroll',
+                'fixed' => 'Fixed',
+            ))
+            ->set_default_value('scroll'),
+        )),
+    )) 
+    ->add_tab(__('Advanced'), array(
+        Field::make('textarea', 'mos_chart_block_style', __('Style'))
+        ->set_help_text('Please write your custom css without style tag'),
+        Field::make('textarea', 'mos_chart_block_script', __('Script'))
+        ->set_help_text('Please write your custom script without script tag'),
+    ))  
+    ->set_render_callback(function ($fields, $attributes, $inner_blocks) {        
+        $id = 'element-'.time().rand(1000, 9999);
+    ?>
+        <div id="<?php echo $id ?>" class="mos-chart-wrapper position-relative <?php echo @$fields['mos_chart_block_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"> 
+        <div    data-donutty 
+                <?php if (@$fields['mos_chart_block_value']) : ?> data-value="<?php echo $fields['mos_chart_block_value']?>" <?php endif?>
+                <?php if (@$fields['mos_chart_block_color']) :  ?> data-color="<?php echo $fields['mos_chart_block_color']?>" <?php endif?> 
+                <?php if (@$fields['mos_chart_block_radius']) :  ?> data-radius="<?php echo $fields['mos_chart_block_radius']?>" <?php endif?> 
+                <?php if (@$fields['mos_chart_block_thickness']) :  ?> data-thickness="<?php echo $fields['mos_chart_block_thickness']?>" <?php endif?>
+                <?php if (@$fields['mos_chart_block_padding']) :  ?> data-padding="<?php echo $fields['mos_chart_block_padding']?>" <?php endif?>
+                <?php if (@$fields['mos_chart_block_bg']) :  ?> data-bg="<?php echo $fields['mos_chart_block_bg']?>" <?php endif?>
+        ></div>
+        </div>        
+        <?php if(@$fields['mos_chart_block_style']) : ?>
+        <style><?php echo str_replace("selector",'#'.$id,$fields['mos_chart_block_style']); ?></style>
+        <?php endif?>
+        
+        <style>            
+            <?php echo '#'.$id ?> {
+                <?php if (@$fields['mos_chart_block_background'][0]['background-color']) : ?>
+                    background-color: <?php echo $fields['mos_chart_block_background'][0]['background-color'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_chart_block_background'][0]['background-image']) : ?>
+                    background-image: url(<?php echo wp_get_attachment_url($fields['mos_chart_block_background'][0]['background-image']) ?>);
+                <?php endif?>
+                <?php if (@$fields['mos_chart_block_background'][0]['background-position']) : ?>
+                    background-position: <?php echo $fields['mos_chart_block_background'][0]['background-position'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_chart_block_background'][0]['background-size']) : ?>
+                    background-size: <?php echo $fields['mos_chart_block_background'][0]['background-size'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_chart_block_background'][0]['background-repeat']) : ?>
+                    background-repeat: <?php echo $fields['mos_chart_block_background'][0]['background-repeat'] ?>;
+                <?php endif?>
+                <?php if (@$fields['mos_chart_block_background'][0]['background-attachment']) : ?>
+                    background-attachment: <?php echo $fields['mos_chart_block_background'][0]['background-attachment'] ?>;
+                <?php endif?>
+            }
+        </style>
+        <?php if(@$fields['mos_chart_block_script']) : ?>
+        <script><?php echo $fields['mos_chart_block_script']; ?></script>
+        <?php endif?>
+    <?php
+    }); 
+    //Chart Block end
     //Slider Block end
     if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 

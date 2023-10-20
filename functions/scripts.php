@@ -10,7 +10,9 @@ function alphacommerz_enqueue_scripts() {
     wp_register_script('jquery.validate.min', get_template_directory_uri() .  '/plugins/jquery-validation/dist/jquery.validate.min.js', 'jquery');
     wp_enqueue_script('jquery.validate.min');  
 
-    
+    wp_register_script('donutty', get_template_directory_uri() . '/plugins/donut-pie-ring-charts/donutty.js', 'jquery');
+    wp_enqueue_script('donutty');
+
     if (carbon_get_theme_option( 'mos_plugin_jquery' ) == 'on') {
 	   wp_enqueue_script('jquery');	
     }
@@ -65,6 +67,8 @@ function alphacommerz_enqueue_scripts() {
     if (carbon_get_theme_option( 'mos_plugin_wow' ) == 'on') {
         wp_register_script('wow.min', get_template_directory_uri() . '/plugins/wow/wow.min.js', 'jquery');
         wp_enqueue_script('wow.min');
+
+        
     }
     if (carbon_get_theme_option( 'mos_plugin_animate' ) == 'on') {
         wp_register_style('animate', get_template_directory_uri() . '/plugins/wow/animate.min.css');	
@@ -216,11 +220,13 @@ function alphacommerz_header_scripts(){
 add_action('wp_footer', 'alphacommerz_footer_scripts', 999);
 function alphacommerz_footer_scripts(){
     ?>    
-    <script type="text/javascript" id="alphacommerz-custom-js-inline-js">  
+    <script type="text/javascript" id="alphacommerz-custom-js-inline-js"> 
         <?php if (carbon_get_theme_option( 'mos_plugin_wow' ) == 'on') : ?>
         new WOW().init();
         <?php endif?>
-        jQuery(document).ready(function($) {                  
+        jQuery(document).ready(function($) {   
+            //$(".donat-chart").Donutty();    
+
             var Nav = new hcOffcanvasNav("#mobile-nav", {
                 disableAt: false,
                 customToggle: ".toggle",

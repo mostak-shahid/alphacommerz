@@ -212,7 +212,7 @@ function mos_popup_func( $atts = array(), $content = null ) {
         'url' => '',
 	), $atts, 'mos-popup' ); 
     ob_start(); ?>
-    <div class="mos-popup-wrapper position-relative <?php echo @$atts['class']?>" href="#">
+    <div class="mos-popup-wrapper position-relative <?php echo @$atts['class']?>">
         <?php if (@$atts['url'] && @$atts['img']) :?>
             <img src="<?php echo $atts['img'] ?>" class="img-fluid">
             <a href="#" class="hidden-link mos-popup-activator" data-url="<?php echo @$atts['url'] ?>">Open Modal</a>
@@ -222,6 +222,34 @@ function mos_popup_func( $atts = array(), $content = null ) {
 	return $html;
 }
 add_shortcode( 'mos-popup', 'mos_popup_func' );
+
+function mos_chart_func( $atts = array(), $content = null ) {
+	$html = '';
+	$atts = shortcode_atts( array(
+		'class' => '',
+        'value' => '',
+        'color' => '',
+        'radius' => '',
+        'thickness' => '',
+        'padding' => '',
+        'bg' => '',
+	), $atts, 'mos-chart' );     
+    ob_start(); 
+    //var_dump($atts);?>
+    <div class="mos-chart-wrapper position-relative <?php echo @$atts['class']?>">
+        <div    data-donutty 
+                <?php if (@$atts['value']) : ?> data-value="<?php echo $atts['value']?>" <?php endif?>
+                <?php if (@$atts['color']) :  ?> data-color="<?php echo $atts['color']?>" <?php endif?> 
+                <?php if (@$atts['radius']) :  ?> data-radius="<?php echo $atts['radius']?>" <?php endif?> 
+                <?php if (@$atts['thickness']) :  ?> data-thickness="<?php echo $atts['thickness']?>" <?php endif?>
+                <?php if (@$atts['padding']) :  ?> data-padding="<?php echo $atts['padding']?>" <?php endif?>
+                <?php if (@$atts['bg']) :  ?> data-bg="<?php echo $atts['bg']?>" <?php endif?>
+        ></div>
+    </div>
+    <?php $html = ob_get_clean();	
+	return $html;
+}
+add_shortcode( 'mos-chart', 'mos_chart_func' );
 
 function mos_video_popup () {
 	?>
