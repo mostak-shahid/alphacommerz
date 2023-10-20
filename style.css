@@ -994,7 +994,7 @@ a.view-full-size:focus {
   position: absolute;
   z-index: 9;
 }
-.ratio-map.ratio::before {
+.ratio-map::before {
   padding-top: 400px;
 }
 @media (min-width: 576px) {

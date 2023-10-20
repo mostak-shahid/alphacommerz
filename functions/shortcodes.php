@@ -181,12 +181,12 @@ function map_func($atts = array(), $content = '') {
         'display' => 'all',
 	), $atts, 'map' );  
     ob_start();     
-    $maps = carbon_get_theme_option( 'mos-contact-contact-address' );  
-    if($maps && sizeof($maps)) :
+    $addresss = carbon_get_theme_option( 'mos-contact-contact-address' );  
+    if($addresss && sizeof($addresss)) :
     ?>
 <span class="map-wrapper <?php echo $atts['class'] ?>">
     <?php if (!is_numeric($atts['display'])) : ?>
-        <?php foreach($maps as $map) :?>
+        <?php foreach($addresss as $address) :?>
             <div class="ratio ratio-map">
                 <iframe src="<?php echo $address['link'] ?>" allowfullscreen></iframe>
             </div>
