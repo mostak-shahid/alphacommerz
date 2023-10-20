@@ -5,7 +5,7 @@ Author: Md. Mostak Shahid
 Author URI: http://mdmostakshahid.com/
 Description: Our Alphacommerz Theme default theme is clean, blog-focused, and designed for clarity. Alphacommerz Theme is simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach. Your visitors arrive by smartphone, tablet, laptop, or desktop computer can view site easily.
 License: GNU General Public License v2 or later
-Version: 1.0.4
+Version: 1.0.5
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: two-columns, one-column, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
 Text Domain: alphacommerz
@@ -260,7 +260,8 @@ pre {
 .mos-posts-grid .post-unit.featured-post .part-text .post-entry-date {
   color: #fff;
 }
-.form-control {
+.form-control,
+.form-select {
   border-radius: 5px;
   border: 1px solid #d9d9d9;
   background: #f9f9f9;
@@ -943,6 +944,22 @@ a.view-full-size:focus {
   text-transform: uppercase;
   line-height: 11.7px;
   letter-spacing: 3.15px;
+}
+.job-filter-form {
+}
+.job-filter-form .form-control,
+.job-filter-form .form-select {
+  height: 38px;
+  padding: 6px 12px;
+}
+.job-filter-form .btn {
+  color: #ffffff;
+  background-color: var(--mos-primary-color);
+  border-color: var(--mos-primary-color);
+}
+.job-filter-form .btn:hover {
+  background-color: var(--mos-secondary-color);
+  border-color: var(--mos-secondary-color);
 }
 @media (min-width: 576px) {
   .group-container-sm > .wp-block-group__inner-container,

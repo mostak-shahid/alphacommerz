@@ -1,6 +1,5 @@
 <?php /*Template Name: Portfolio Template*/ ?>
 <?php get_header() ?>
-<?php the_content() ?>
 
 <section class="project-listing py-5">
     <div class="button-group filters-button-group">
@@ -69,6 +68,7 @@
     wp_reset_postdata();
     ?>
 </section>
+<?php the_content() ?>
 <?php get_footer() ?>
 <style>
 

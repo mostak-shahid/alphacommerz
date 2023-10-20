@@ -204,6 +204,13 @@ function mos_get_the_excerpt(){
 }
 add_shortcode( 'post-excerpt', 'mos_get_the_excerpt' );
 
+function mos_get_the_page_intro(){
+    $intro = carbon_get_post_meta( get_the_ID(), 'intro' );
+    if ($intro) return '<div class="short-desc">'.$excerpt.'</div>';
+    return '';
+}
+add_shortcode( 'page-excerpt', 'mos_get_the_page_intro' );
+
 function mos_popup_func( $atts = array(), $content = null ) {
 	$html = '';
 	$atts = shortcode_atts( array(

@@ -53,6 +53,13 @@ Container::make( 'theme_options', 'Settings' )
             'no' => 'No',
         ))
         ->set_default_value('yes'),
+        Field::make( "multiselect", "mos_job_filters", "Job Filters for listing page" )
+        ->add_options( array(
+            's' => 'Keyword',
+            'category' => 'Job Category',
+            'type' => 'Job Type',
+            'location' => 'Job Location',
+        ) ),
         Field::make( "multiselect", "mos_job_metas", "Job Details for listing page" )
         ->add_options( array(
             'published' => 'Published on',

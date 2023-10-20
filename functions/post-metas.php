@@ -42,7 +42,8 @@ function mos_post_meta_options() {
     ));    
     Container::make('post_meta', 'Page Data')
     ->where('post_type', '=', 'page')
-    ->add_fields(array(        
+    ->add_fields(array(    
+        Field::make('rich_text', 'intro', __('Short Description')),    
         Field::make( 'select', 'mos_page_header_type', __( 'Header Option' ) )
         ->set_options( array(
             'default' => 'Default',
