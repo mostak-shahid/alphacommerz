@@ -57,6 +57,13 @@ function back_to_top_fnc () {
 }
 add_action( 'action_below_footer', 'back_to_top_fnc', 10, 1 );
 
+function link_wp_head () {
+    ?>
+    <link rel="alternate" hreflang="en-bd" href="<?php echo get_the_permalink(get_the_ID()) ?>" />
+    <?php 
+}
+add_action( 'wp_head', 'link_wp_head');
+
 
 add_filter('wpcf7_form_elements', function($content) {
     $content = preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^\>]*>(.*)<\/\1>/i', '\2', $content);

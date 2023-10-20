@@ -150,7 +150,7 @@ function address_func($atts = array(), $content = '') {
 		'title' => 0,
 	), $atts, 'address' );  
     ob_start();     
-    $addresss = carbon_get_theme_option( 'mos-contact-address' );  
+    $addresss = carbon_get_theme_option( 'mos-contact-contact-address' );  
     if($addresss && sizeof($addresss)) :
     ?>
 <span class="address-wrapper <?php echo $atts['class'] ?>">
@@ -164,7 +164,7 @@ function address_func($atts = array(), $content = '') {
     <?php else : ?>
     <span class="address-unit">
         <span class="address-title <?php if(!$atts['title']) echo 'd-none'?>"><?php echo $addresss[$atts['display']]['title'] ?></span>
-        <span class="address-link"><?php echo $addresss[$atts['display']]['number'] ?></span>
+        <span class="address-link"><?php echo $addresss[$atts['display']]['address'] ?></span>
     </span>
     <?php endif ?>
     <?php echo do_shortcode($content) ?>
@@ -174,6 +174,35 @@ function address_func($atts = array(), $content = '') {
     return $html;
 }
 add_shortcode( 'address', 'address_func' );
+
+function map_func($atts = array(), $content = '') {
+	$atts = shortcode_atts( array(
+        'class' => '',
+        'display' => 'all',
+	), $atts, 'map' );  
+    ob_start();     
+    $maps = carbon_get_theme_option( 'mos-contact-contact-address' );  
+    if($maps && sizeof($maps)) :
+    ?>
+<span class="map-wrapper <?php echo $atts['class'] ?>">
+    <?php if (!is_numeric($atts['display'])) : ?>
+        <?php foreach($maps as $map) :?>
+            <div class="ratio ratio-16x9">
+                <iframe src="<?php echo $address['link'] ?>" allowfullscreen></iframe>
+            </div>
+        <?php endforeach;?>
+    <?php else : ?>
+        <div class="ratio ratio-16x9">
+            <iframe src="<?php echo $addresss[$atts['display']]['link'] ?>" allowfullscreen></iframe>
+        </div>
+    <?php endif ?>
+    <?php echo do_shortcode($content) ?>
+</span>
+<?php endif?>
+<?php $html = ob_get_clean();
+    return $html;
+}
+add_shortcode( 'map', 'map_func' );
 
 function mos_mobile_menu_func( $atts = array(), $content = null ) {
 	$html = '';
