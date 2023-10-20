@@ -6,7 +6,7 @@ function alphacommerz_enqueue_scripts() {
     wp_register_style( 'bootstrap.min', get_template_directory_uri() .  '/plugins/bootstrap-5.2.3/css/bootstrap.min.css' );
     wp_enqueue_style( 'bootstrap.min' );  
     
-    
+    //D:\laragon\www\alpha-bd\wp-content\themes\alphacommerz\plugins\jquery-validation\dist\jquery.validate.min.js
     wp_register_script('jquery.validate.min', get_template_directory_uri() .  '/plugins/jquery-validation/dist/jquery.validate.min.js', 'jquery');
     wp_enqueue_script('jquery.validate.min');  
 
