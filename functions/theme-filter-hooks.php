@@ -213,3 +213,17 @@ function mos_job_apply_form_submit(){
 }
 add_action('init', 'mos_job_apply_form_submit');
 
+function generate_popup_form($attributes, $id, $fields){
+    ?>    
+    <div class="modal fade mos-popup-form-block-wrapper <?php echo @$fields['mos_popup_form_wrapper_class']; ?> <?php echo @$attributes['className']; ?>" id="<?php echo $id ?>" tabindex="-1" aria-labelledby="<?php echo $id ?>Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                <div class="form <?php echo @$fields['mos_popup_form_shortcode_class']; ?>"><?php echo do_shortcode($fields['mos_popup_form_shortcode']) ?></div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <?php
+}
+
