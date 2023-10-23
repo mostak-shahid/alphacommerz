@@ -4,6 +4,87 @@ use Carbon_Fields\Field;
 add_action('carbon_fields_register_fields', 'mos_post_meta_options');
 
 function mos_post_meta_options() {
+    
+    Container::make('post_meta', 'Meta Data')
+    ->where('post_type', '=', 'page')
+    ->add_fields(array(
+
+        Field::make('complex', 'mos_additional_tags', __('Additional Tags'))
+        ->add_fields(array(
+            Field::make( 'select', 'tag_name', __( 'Tag Name' ) )
+            ->set_options( array(
+                'meta' => 'Meta Tag',
+                'link' => 'Link Tag',
+                'script' => 'Script Tag',
+                'style' => 'Style Tag',
+            ))
+            ->set_required( true ),
+
+            Field::make('complex', 'mos_additional_tag_attributes', __('Attributes'))
+            ->add_fields(array(
+                Field::make( 'text', 'attribute_key', __( 'Key' ) )
+                ->set_required( true ),
+                Field::make( 'text', 'attribute_value', __( 'Value' ) )
+                ->set_required( true ),
+            ))
+            ->set_header_template('
+                <% if (attribute_key && attribute_value) { %>
+                    <%- attribute_key %>="<%- attribute_value %>"
+                <% } %>
+            ')
+            ->set_collapsed(true),
+
+
+        ))
+        ->set_header_template('
+            <% if (tag_name) { %>
+                <%- tag_name %>
+            <% } %>
+        ')
+        ->set_collapsed(true),
+
+    )); 
+        
+    Container::make('post_meta', 'Meta Data')
+    ->where('post_type', '=', 'post')
+    ->add_fields(array(
+
+        Field::make('complex', 'mos_additional_tags', __('Additional Tags'))
+        ->add_fields(array(
+            Field::make( 'select', 'tag_name', __( 'Tag Name' ) )
+            ->set_options( array(
+                'meta' => 'Meta Tag',
+                'link' => 'Link Tag',
+                'script' => 'Script Tag',
+                'style' => 'Style Tag',
+            ))
+            ->set_required( true ),
+
+            Field::make('complex', 'mos_additional_tag_attributes', __('Attributes'))
+            ->add_fields(array(
+                Field::make( 'text', 'attribute_key', __( 'Key' ) )
+                ->set_required( true ),
+                Field::make( 'text', 'attribute_value', __( 'Value' ) )
+                ->set_required( true ),
+            ))
+            ->set_header_template('
+                <% if (attribute_key && attribute_value) { %>
+                    <%- attribute_key %>="<%- attribute_value %>"
+                <% } %>
+            ')
+            ->set_collapsed(true),
+
+
+        ))
+        ->set_header_template('
+            <% if (tag_name) { %>
+                <%- tag_name %>
+            <% } %>
+        ')
+        ->set_collapsed(true),
+
+    )); 
+
     Container::make('post_meta', 'Audio Data')
     ->where('post_type', '=', 'post')
     ->add_fields(array(

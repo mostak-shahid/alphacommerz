@@ -57,12 +57,35 @@ function back_to_top_fnc () {
 }
 add_action( 'action_below_footer', 'back_to_top_fnc', 10, 1 );
 
-function link_wp_head () {
-    ?>
-    <link rel="alternate" hreflang="en-bd" href="<?php echo get_the_permalink(get_the_ID()) ?>" />
-    <?php 
+function mos_custom_head_tags () {
+    //, carbon_get_post_meta
+    $mos_additional_tags = carbon_get_post_meta(get_the_ID(), 'mos_additional_tags');
+    if($mos_additional_tags && sizeof($mos_additional_tags)){
+        foreach($mos_additional_tags as $tag) {
+            if ($tag['tag_name']) {
+                $tag_start = '<meta ';
+                $tag_end = '/>';
+            } else if ($tag['tag_name']=='link') {
+                $tag_start = '<link ';
+                $tag_end = '/>';
+            } else if ($tag['tag_name']=='script') {
+                $tag_start = '<script ';
+                $tag_end = '></script>';
+            } else {
+                $tag_start = '<style ';
+                $tag_end = '></style>';
+            }
+            $attrArray = [];
+            if ($tag['mos_additional_tag_attributes'] && sizeof($tag['mos_additional_tag_attributes'])) {
+                foreach($tag['mos_additional_tag_attributes'] as $attribute) {
+                    $attrArray[] = $attribute['attribute_key'] . '="' . $attribute['attribute_value'] . '"';
+                }
+            }
+            echo $tag_start . implode(" ",$attrArray) . $tag_end;
+        }
+    }
 }
-add_action( 'wp_head', 'link_wp_head');
+add_action( 'wp_head', 'mos_custom_head_tags');
 
 
 add_filter('wpcf7_form_elements', function($content) {
