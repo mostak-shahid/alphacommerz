@@ -227,3 +227,25 @@ function generate_popup_form($attributes, $id, $fields){
     <?php
 }
 
+/**
+ * Disable Plugin Updates 
+ */
+add_filter( 'site_transient_update_plugins', 'disable_multiple_plugin_updates' );
+
+ function disable_multiple_plugin_updates( $value ) {
+
+    $pluginsToDisableUpdates = [
+        'all-in-one-wp-migration/all-in-one-wp-migration.php',
+        'wp-bootstrap-blocks/wp-bootstrap-blocks.php',
+        'advanced-backgrounds/advanced-backgrounds.php'
+    ];
+
+    if ( isset($value) && is_object($value) ) {
+        foreach ( $pluginsToDisableUpdates as $plugin) {
+            if ( isset( $value->response[$plugin] ) ) {
+                unset( $value->response[$plugin] );
+            }
+        }
+    }
+    return $value;
+}
