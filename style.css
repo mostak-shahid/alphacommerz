@@ -52,6 +52,33 @@ a,
 a:hover {
   color: var(--secondary-color);
 }
+blockquote.wp-block-quote {
+  border-left: 15px solid var(--mos-primary-color);
+  margin: 0;
+  padding: 26px 40px 26px 35px;
+  background-color: #f8f9fa;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+.mb-50 {
+  margin-bottom: 50px !important;
+}
+.heading-with-border {
+  position: relative;
+}
+.heading-with-border::after {
+  content: "";
+  display: block;
+  height: 4px;
+  left: 0;
+  position: absolute;
+  width: 36px;
+  background-color: var(--mos-secondary-color);
+}
 .text-theme-primary,
 .text-theme-primary-hover:hover {
   color: var(--mos-primary-color);
