@@ -319,21 +319,6 @@ function mos_chart_func( $atts = array(), $content = null ) {
 }
 add_shortcode( 'mos-chart', 'mos_chart_func' );
 
-function mos_video_popup () {
-	?>
-	<!-- Modal -->
-<div class="modal fade" id="videoPopupModal" tabindex="-1" aria-labelledby="videoPopupModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content rounded-0">
-        <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div class="modal-body p-0"><div class="ratio ratio-16x9"><iframe src="" allowfullscreen></iframe></div></div>
-    </div>
-  </div>
-</div>
-	<?php
-}
-add_action('wp_footer', 'mos_video_popup');
-
 
 function mos_video_func( $atts = array(), $content = null ) {
 	$html = '';

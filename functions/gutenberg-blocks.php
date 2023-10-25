@@ -1249,6 +1249,7 @@ function mos_gutenberg_blocks() {
     ->add_tab(__('Style'), array(
         Field::make('text', 'mos_popup_form_wrapper_class', __('Wrapper Class')),
         Field::make('text', 'mos_popup_form_shortcode_class', __('Form Class')),
+        //is-content-justification-right
         Field::make('complex', 'mos_popup_form_background', __('Background'))
         ->set_max(1)
         ->set_collapsed(true)
@@ -1308,9 +1309,11 @@ function mos_gutenberg_blocks() {
     ->set_render_callback(function ($fields, $attributes, $inner_blocks) {        
         $id = 'element-'.time().rand(1000, 9999);
     ?>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#<?php echo $id ?>">
-        <?php echo $fields['mos_popup_form_btn_title'] ?>
-        </button>
+        <div class="wp-block-buttons">
+            <div class="wp-block-button">
+                <a href="#" class="wp-block-button__link wp-element-button" data-bs-toggle="modal" data-bs-target="#<?php echo $id ?>"><?php echo $fields['mos_popup_form_btn_title'] ?></a>
+            </div>
+        </div>
         <?php
         add_action('wp_footer', 
         function() use ( $attributes, $id, $fields ) { 
