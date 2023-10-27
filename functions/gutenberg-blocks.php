@@ -41,7 +41,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',
@@ -262,7 +262,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',
@@ -409,7 +409,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',
@@ -1023,7 +1023,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',
@@ -1157,7 +1157,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',
@@ -1268,7 +1268,7 @@ function mos_gutenberg_blocks() {
                 'bottom center' => 'Bottom Center',
                 'bottom right' => 'Bottom Right',
             ))
-            ->set_default_value(['top left']),
+            ->set_default_value('top left'),
             Field::make('select', 'background-size', __('Background Size'))
             ->set_options(array(
                 'cover' => 'cover',

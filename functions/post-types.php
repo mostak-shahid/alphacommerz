@@ -284,6 +284,35 @@ function mos_custom_taxonomy() {
 		"show_in_graphql" => false,
 	];
 	register_taxonomy( "project_category", [ "project" ], $args );
+	/**
+	 * Taxonomy: Project Tags.
+	 */
+	$labels = [
+		"name" => esc_html__( "Project Tags", "alphacommerz" ),
+		"singular_name" => esc_html__( "Projet Tag", "alphacommerz" ),
+	];	
+	$args = [
+		"label" => esc_html__( "Project Tags", "alphacommerz" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => false,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'project_tag', 'with_front' => true, ],
+		"show_admin_column" => false,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "project_tag",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => false,
+		"sort" => false,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "project_tag", [ "project" ], $args );
 }
 add_action( 'init', 'mos_custom_taxonomy' );
 add_action( 'after_switch_theme', 'flush_rewrite_rules' );
