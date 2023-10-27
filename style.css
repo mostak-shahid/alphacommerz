@@ -67,9 +67,18 @@ blockquote.wp-block-quote {
 .mb-50 {
   margin-bottom: 50px !important;
 }
-.heading-with-border {
+.heading-with-border,
+.heading-with-cap {
   position: relative;
+}
+.heading-with-border {
   margin-bottom: 20px;
+}
+.heading-with-cap::after {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url(images/heading-top-cap.webp);
 }
 .heading-with-border::after {
   content: "";
