@@ -1359,8 +1359,10 @@ function mos_gutenberg_blocks() {
         Field::make('complex', 'mos_tab_block_content', __('Tab Content'))
         ->set_collapsed(true)
         ->add_fields(array(
-            Field::make('text', 'title', __('Title')),            
-            Field::make('rich_text', 'desc', __('Intro')),
+            Field::make('text', 'title', __('Title'))
+            ->set_required( true ),            
+            Field::make('rich_text', 'desc', __('Intro'))
+            ->set_required( true ),
         ))        
         ->set_header_template('
             <% if (title) { %>
@@ -1445,12 +1447,12 @@ function mos_gutenberg_blocks() {
         */
     ?>
         <div id="<?php echo $id ?>" class="mos-tab-block-wrapper <?php echo (@$fields['mos_tab_block_type'] == 'vertical')?'d-flex align-items-start':'' ?> <?php echo @$fields['mos_tab_block_wrapper_class']; ?> <?php echo @$attributes['className']; ?>">
-            <ul class="nav <?php echo (@$fields['mos_tab_block_type'] == 'vertical')?'flex-column':'' ?>" role="tablist" <?php echo (@$fields['mos_tab_block_type'] == 'vertical')?'aria-orientation="vertical"':'' ?>><!--class=" flex-column nav-pills" -->
+            <ul class="nav <?php echo (@$fields['mos_tab_block_type'] == 'vertical')?'flex-column':'' ?> <?php echo @$fields['mos_tab_block_nav_class'] ?>" role="tablist" <?php echo (@$fields['mos_tab_block_type'] == 'vertical')?'aria-orientation="vertical"':'' ?>><!--class=" flex-column nav-pills" -->
             <?php foreach($fields['mos_tab_block_content'] as $index=>$item) :?>
                 <li class="nav-item"><a class="nav-link <?php echo (!$index)?'active':''; ?>" id="unit-<?php echo $index ?>-tab" data-bs-toggle="pill" data-bs-target="#unit-<?php echo $index ?>" type="button" role="tab" aria-controls="unit-<?php echo $index ?>"><?php echo $item['title'] ?></a></li>           
             <?php endforeach?>
             </ul>
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content <?php echo @$fields['mos_tab_block_content_class'] ?>" id="v-pills-tabContent">
                 <?php foreach($fields['mos_tab_block_content'] as $index=>$item) :?>
                     <div class="tab-pane fade <?php echo (!$index)?'show active':'' ?>" id="unit-<?php echo $index ?>" role="tabpanel" aria-labelledby="unit-<?php echo $index ?>-tab" tabindex="0"><?php echo $item['desc'] ?></div>         
                 <?php endforeach?>
