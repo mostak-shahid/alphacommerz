@@ -8,6 +8,8 @@ $mos_job_no_job_text = carbon_get_theme_option( 'mos_job_no_job_text' );
 $mos_job_hide_expired_jobs = carbon_get_theme_option( 'mos_job_hide_expired_jobs' );
 $mos_job_filters = carbon_get_theme_option( 'mos_job_filters' );
 $mos_job_metas = carbon_get_theme_option( 'mos_job_metas' );
+$mos_job_before_content = carbon_get_theme_option( 'mos_job_before_content' );
+$mos_job_after_content = carbon_get_theme_option( 'mos_job_after_content' );
 
 $job_categories = mos_get_terms('job_category');
 $job_types = mos_get_terms('job_type');
@@ -15,6 +17,10 @@ $job_locations = mos_get_terms('job_location');
 ?>
 <?php get_header() ?>
 <section class="job-listing <?php echo $mos_job_layout ?>-layout py-5">
+	
+	<div class="job-archive-before-content mb-3">
+		<?php echo @$mos_job_before_content?>
+	</div>
 <?php if ($mos_job_filters && sizeof($mos_job_filters)) :?>
     
     <form class="row align-items-center mb-3 job-filter-form" action="" method="get">
@@ -248,6 +254,9 @@ $query = new WP_Query( $args );
 <?php endif;
 wp_reset_postdata();
 ?>
+	<div class="job-archive-after-content mt-3">
+		<?php echo @$mos_job_after_content?>
+	</div>
 </section>
 <?php the_content() ?>
 <?php get_footer() ?>

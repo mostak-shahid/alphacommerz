@@ -25,6 +25,9 @@ img {
   max-width: 100%;
   height: auto;
 }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 20px;
+}
 .nk-awb {
   z-index: 1;
 }
@@ -91,10 +94,16 @@ blockquote.wp-block-quote {
   content: "";
   display: block;
   height: 4px;
-  left: 0;
-  position: absolute;
   width: 36px;
   background-color: var(--mos-secondary-color);
+}
+.has-text-align-center.heading-with-border::after {
+	margin-left: auto;
+	margin-right: auto;
+}
+.has-text-align-right.heading-with-border::after {	
+	margin-left: auto;
+	margin-right: 0;
 }
 /* .styled-list li::marker {
   content: url(images/list-icon.svg);

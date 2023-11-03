@@ -5,7 +5,6 @@ use Carbon_Fields\Field;
 add_action('carbon_fields_register_fields', 'mos_job_theme_options');
 function mos_job_theme_options() {
 Container::make( 'theme_options', 'Settings' )
-    ->set_page_parent( 'edit.php?post_type=job' ) // identificator of the "Appearance" admin section
     ->add_fields( array(
         Field::make( 'association', 'mos_job_listing_page', __( 'Job listing page' ) )
         ->set_types( array(
@@ -74,7 +73,9 @@ Container::make( 'theme_options', 'Settings' )
             'education' => 'Educational Requirements',
             'experience' => 'Experience',
             'deadline' => 'Deadline',
-        ) )
+        ) ),
+		Field::make( 'rich_text', 'mos_job_before_content', __( 'Content before listing' ) ),
+		Field::make( 'rich_text', 'mos_job_after_content', __( 'Content after listing' ) ),
     ) );
 }
 

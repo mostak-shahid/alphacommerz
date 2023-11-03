@@ -17,14 +17,6 @@
             <?php endforeach;
         endif;  
     ?>
-
-        <!-- <button class="button" data-filter=".metal">metal</button>
-        <button class="button" data-filter=".transition">transition</button>
-        <button class="button" data-filter=".alkali, .alkaline-earth">alkali and alkaline-earth</button>
-        <button class="button" data-filter=":not(.transition)">not transition</button>
-        <button class="button" data-filter=".metal:not(.transition)">metal but not transition</button>
-        <button class="button" data-filter="numberGreaterThan50">number > 50</button>
-        <button class="button" data-filter="ium">name ends with &ndash;ium</button> -->
     </div>
     <?php
     $args = array(
@@ -73,7 +65,7 @@
 <style>
 
 .isotop-grid {
-  margin: 0px -5px;
+  margin: 0px -15px;
 }
 
 /* clear fix */
@@ -88,8 +80,8 @@
 .isotope-grid-item {
   position: relative;
   float: left;
-  width: calc(33.33333333% - 10px);
-  margin: 5px;
+  width: calc(33.33333333% - 30px);
+  margin: 15px;
   background-color: #ffffff;
 }
 
@@ -97,6 +89,16 @@
   margin: 0;
   padding: 0;
 } 
+.isotope-grid-item .media-part {
+	overflow: hidden;
+	display: block;
+}
+.isotope-grid-item .media-part img {		
+	transition: all .5s ease-in-out;
+}
+.isotope-grid-item:hover .media-part img {
+	transform: scale(1.2) rotate(5deg);
+}
 .isotope-grid-item .project-title {
     font-size: 22px;
     font-weight: 600;

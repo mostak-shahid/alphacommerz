@@ -1248,8 +1248,6 @@ function mos_gutenberg_blocks() {
     ))
     ->add_tab(__('Style'), array(
         Field::make('text', 'mos_popup_form_wrapper_class', __('Wrapper Class')),
-        Field::make('text', 'mos_popup_form_shortcode_class', __('Form Class')),
-        //is-content-justification-right
         Field::make('complex', 'mos_popup_form_background', __('Background'))
         ->set_max(1)
         ->set_collapsed(true)
@@ -1311,14 +1309,16 @@ function mos_gutenberg_blocks() {
     ?>
         <div class="wp-block-buttons">
             <div class="wp-block-button">
-                <a href="#" class="wp-block-button__link wp-element-button" data-bs-toggle="modal" data-bs-target="#<?php echo $id ?>"><?php echo $fields['mos_popup_form_btn_title'] ?></a>
+                <a href="#" class="wp-block-button__link wp-element-button mos-popup-button" data-bs-toggle="modal" data-bs-target="#<?php echo $id ?>"><?php echo $fields['mos_popup_form_btn_title'] ?></a>
             </div>
         </div>
         <?php
-        add_action('wp_footer', 
-        function() use ( $attributes, $id, $fields ) { 
-            generate_popup_form( $attributes, $id, $fields ); 
-        });
+        add_action(
+			'wp_footer', 
+			function() use ( $attributes, $id, $fields ) { 
+				generate_popup_form( $attributes, $id, $fields ); 
+			}
+		);
         ?>      
         <?php if(@$fields['mos_popup_form_style']) : ?>
         <style><?php echo str_replace("selector",'#'.$id,$fields['mos_popup_form_style']); ?></style>
