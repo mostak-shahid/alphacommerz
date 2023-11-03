@@ -5,7 +5,7 @@ Author: Md. Mostak Shahid
 Author URI: http://mdmostakshahid.com/
 Description: Our Alphacommerz Theme default theme is clean, blog-focused, and designed for clarity. Alphacommerz Theme is simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach. Your visitors arrive by smartphone, tablet, laptop, or desktop computer can view site easily.
 License: GNU General Public License v2 or later
-Version: 1.0.13
+Version: 1.0.14
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: two-columns, one-column, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
 Text Domain: alphacommerz
@@ -25,8 +25,19 @@ img {
   max-width: 100%;
   height: auto;
 }
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-	margin-bottom: 20px;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 20px;
 }
 .nk-awb {
   z-index: 1;
@@ -98,12 +109,12 @@ blockquote.wp-block-quote {
   background-color: var(--mos-secondary-color);
 }
 .has-text-align-center.heading-with-border::after {
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
-.has-text-align-right.heading-with-border::after {	
-	margin-left: auto;
-	margin-right: 0;
+.has-text-align-right.heading-with-border::after {
+  margin-left: auto;
+  margin-right: 0;
 }
 /* .styled-list li::marker {
   content: url(images/list-icon.svg);
