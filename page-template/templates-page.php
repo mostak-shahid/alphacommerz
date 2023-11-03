@@ -101,6 +101,13 @@
     object-position: top center;
     transition: all 3s ease-in-out;
 }
+.isotope-grid-item {
+    transition: all .3s ease-in-out;
+}
+.isotope-grid-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 18px rgb(0 0 0 / 12%);
+}
 .isotope-grid-item:hover .media-part img {
 	/* transform: scale(1.2) rotate(5deg); */
     object-position: bottom center;
