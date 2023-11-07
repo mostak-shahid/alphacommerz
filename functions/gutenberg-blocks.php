@@ -513,7 +513,7 @@ function mos_gutenberg_blocks() {
     ->set_render_callback(function ($fields, $attributes, $inner_blocks) {        
         $id = 'element-'.time().rand(1000, 9999);
     ?>
-        <div id="<?php echo $id ?>" class="mos-card-wrapper <?php echo @$fields['mos_card_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"> 
+        <div id="<?php echo $id ?>" class="mos-card-wrapper position-relative <?php echo @$fields['mos_card_wrapper_class']; ?> <?php echo @$attributes['className']; ?>"> 
             <div class="media-part">
                 <?php if(@$fields['mos_card_image']) : ?>
                     <div class="img-part">
@@ -531,12 +531,15 @@ function mos_gutenberg_blocks() {
                 <?php if(@$fields['mos_card_title']) : ?><div class="title <?php echo @$fields['mos_card_title_class']; ?>"><?php echo $fields['mos_card_title'] ?></div><?php endif?>
                 <?php if(@$fields['mos_card_desc']) : ?><div class="intro <?php echo @$fields['mos_card_intro_class']; ?>"><?php echo do_shortcode($fields['mos_card_desc']); ?></div><?php endif?>
         
-                <?php if(@$fields['mos_card_button_title'] && @$fields['mos_card_button_url']) : ?>
+                <?php if(@$fields['mos_card_button_title']) : ?>
                     <div class="is-layout-flex wp-block-buttons">
-                        <div class="wp-block-button"><a href="<?php echo $fields['mos_card_button_url'] ?>" class="wp-block-button__link wp-element-button <?php echo @$fields['mos_card_button_class']; ?>"><?php echo $fields['mos_card_button_title'] ?></a></div>
+                        <div class="wp-block-button"><span class="wp-block-button__link wp-element-button <?php echo @$fields['mos_card_button_class']; ?>"><?php echo $fields['mos_card_button_title'] ?></span></div>
                     </div>
                 <?php endif?>
             </div>
+            <?php if(@$fields['mos_card_button_url']) : ?>
+                <a href="<?php echo $fields['mos_card_button_url'] ?>" class="hidden-link">Read More</a>
+            <?php endif?>    
         </div>        
         <?php if(@$fields['mos_card_style']) : ?>
             <style><?php echo str_replace("selector",'#'.$id,$fields['mos_card_style']); ?></style>

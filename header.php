@@ -76,7 +76,7 @@ else $page_id = get_the_ID();
                     $mobile_layout = carbon_get_theme_option( 'mos-header-mobile-layout' );
                 ?>
                 <div class="d-lg-none mobile-header">
-                    <div class="wp-block-nk-awb nk-awb alignfull p-0"> 
+                    
                         <?php
                             $layout_id = $mobile_layout[0]['id'];//This is page id or post id
                             $content_post = get_post($layout_id);
@@ -85,14 +85,14 @@ else $page_id = get_the_ID();
                             $content = str_replace(']]>', ']]&gt;', $content);
                             echo $content;  
                         ?>
-                    </div>
+                    
                 </div>
             <?php endif?>
             <?php if (carbon_get_theme_option( 'mos-header-sticky-enable' ) == 'on') : ?>
                 <?php 
                     $sticky_layout = carbon_get_theme_option( 'mos-header-sticky-layout' );
                 ?>
-                <div class="scroll-header smooth">
+                <div class="d-none d-lg-block scroll-header smooth">
                     <?php 
                         $layout_id = $sticky_layout[0]['id'];//This is page id or post id
                         $content_post = get_post($layout_id);

@@ -5,6 +5,7 @@ use Carbon_Fields\Field;
 add_action('carbon_fields_register_fields', 'mos_job_theme_options');
 function mos_job_theme_options() {
 Container::make( 'theme_options', 'Settings' )
+    ->set_page_parent( 'edit.php?post_type=job' )
     ->add_fields( array(
         Field::make( 'association', 'mos_job_listing_page', __( 'Job listing page' ) )
         ->set_types( array(

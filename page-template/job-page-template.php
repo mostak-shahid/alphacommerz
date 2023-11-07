@@ -242,7 +242,7 @@ $query = new WP_Query( $args );
                     <?php endforeach?>
                     </div>
                 <?php endif?>        
-                <span class="btn bg-theme-secondary text-white d-inline-block mt-3">More Details</span>
+                <span class="btn job-apply-button d-inline-block mt-3 smooth">Explore</span>
                 <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read more about <?php echo get_the_title() ?></a>
             </div>
         </div>

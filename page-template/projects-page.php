@@ -124,6 +124,17 @@
     background-color: var(--mos-secondary-color);
 }
 
+@media (max-width: 768px) {
+    .isotope-grid-item {
+        width: calc(50% - 30px);
+    }
+}
+@media (max-width: 575px) {
+    .isotope-grid-item {
+        width: calc(100%);
+    }
+
+}
 </style>
 <?php if (carbon_get_theme_option( 'mos_plugin_isotop' ) == 'on') : ?>
     <script type="text/javascript"> 
